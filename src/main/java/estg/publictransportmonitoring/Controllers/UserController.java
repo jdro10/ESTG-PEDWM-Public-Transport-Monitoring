@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping("{id}")
     public Mono<User> getById(@PathVariable("id") final String id){
         System.out.println("user by id");
-        return userService.getById("id");
+        return userService.getById(id);
     }
 
     @PutMapping("{id}")
