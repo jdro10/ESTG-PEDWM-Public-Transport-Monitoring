@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 import java.util.Objects;
 
@@ -43,10 +44,17 @@ public class TripController {
 
     @PostMapping
     public Mono<Trip> save(@RequestBody final Trip trip){
-        //Mono<Vehicle> vehicleMono = this.vehicleService.getById(trip.getVehiclePlate());
-        //Mono<Driver> driverMono = this.driverService.getById(trip.getDriverId()).switchIfEmpty(Mono.empty());
+        Mono<Vehicle> vehicleMono = this.vehicleService.getById(trip.getVehiclePlate());
+        Mono<Driver> driverMono = this.driverService.getById(trip.getDriverId()).switchIfEmpty(Mono.empty());
 
-        return this.tripService.save(trip);
+        Driver driver = driverMono.share().block();
+        Vehicle vehicle = vehicleMono.share().block();
+
+        if(driver != null && vehicle != null){
+            return this.tripService.save(trip);
+        }
+
+        return Mono.empty();
     }
 
     @DeleteMapping("{id}")
