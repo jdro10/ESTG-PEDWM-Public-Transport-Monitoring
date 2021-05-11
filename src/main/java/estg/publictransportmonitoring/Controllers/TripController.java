@@ -8,9 +8,13 @@ import estg.publictransportmonitoring.Services.TripService;
 import estg.publictransportmonitoring.Services.VehicleService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 import java.util.Objects;
@@ -33,8 +37,16 @@ public class TripController {
     }
 
     @GetMapping("{id}")
-    public Mono<Trip> getById(@PathVariable("id") final String id){
-        return this.tripService.getById(id);
+    public EntityModel getById(@PathVariable("id") final String id){
+
+        Trip trip = this.tripService.getById(id).share().block();
+
+        EntityModel<Trip> model = EntityModel.of(trip);
+        model.add(linkTo(methodOn(DriverController.class).getById(trip.getDriverId())).withRel("Condutor"));
+        model.add(linkTo(methodOn(VehicleController.class).getById(trip.getVehiclePlate())).withRel("Veículo"));
+
+
+        return model;
     }
 
     @PutMapping("{id}")
