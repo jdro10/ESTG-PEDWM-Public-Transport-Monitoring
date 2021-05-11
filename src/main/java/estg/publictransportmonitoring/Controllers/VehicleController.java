@@ -34,7 +34,7 @@ public class VehicleController {
     @GetMapping("{id}")
     public Mono<Vehicle> getById(@PathVariable("id") final String id){
         System.out.println("vehicle by id");
-        return vehicleService.getById("id");
+        return vehicleService.getById(id);
     }
 
     @PutMapping("{id}")
