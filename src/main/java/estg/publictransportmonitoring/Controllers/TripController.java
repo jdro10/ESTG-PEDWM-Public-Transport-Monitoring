@@ -15,9 +15,7 @@ import reactor.core.publisher.Mono;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
-import java.util.Objects;
 
 @AllArgsConstructor
 @RequestMapping("/trips")
@@ -38,13 +36,11 @@ public class TripController {
 
     @GetMapping("{id}")
     public EntityModel getById(@PathVariable("id") final String id){
-
         Trip trip = this.tripService.getById(id).share().block();
 
         EntityModel<Trip> model = EntityModel.of(trip);
         model.add(linkTo(methodOn(DriverController.class).getById(trip.getDriverId())).withRel("Condutor"));
         model.add(linkTo(methodOn(VehicleController.class).getById(trip.getVehiclePlate())).withRel("Veículo"));
-
 
         return model;
     }
