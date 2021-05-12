@@ -12,6 +12,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuples;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -51,18 +53,14 @@ public class TripController {
     }
 
     @PostMapping
-    public Mono<Trip> save(@RequestBody final Trip trip){
-        Mono<Vehicle> vehicleMono = this.vehicleService.getById(trip.getVehiclePlate());
-        Mono<Driver> driverMono = this.driverService.getById(trip.getDriverId()).switchIfEmpty(Mono.empty());
+    public void saveTrip(@RequestBody final Trip trip){
+        Flux<Tuple2<Vehicle, Driver>> result = Flux.zip(this.vehicleService.getById(trip.getVehiclePlate()), this.driverService.getById(trip.getDriverId()));
 
-        Driver driver = driverMono.share().block();
-        Vehicle vehicle = vehicleMono.share().block();
+        result.flatMap(x -> this.save(trip)).subscribe();
+    }
 
-        if(driver != null && vehicle != null){
-            return this.tripService.save(trip);
-        }
-
-        return Mono.empty();
+    private Mono<Trip> save(final Trip trip){
+        return this.tripService.save(trip);
     }
 
     @DeleteMapping("{id}")
