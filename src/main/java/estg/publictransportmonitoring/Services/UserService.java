@@ -28,15 +28,15 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public Mono update(final String id, final User user){
+    public Mono<User> update(final String id, final User user){
         return userRepository.save(user);
     }
 
-    public Mono save(final User user){
+    public Mono<User> save(final User user){
         return userRepository.save(user);
     }
 
-    public Mono delete(final String id){
+    public Mono<User> delete(final String id){
         final Mono<User> userTmp = getById(id);
         if(Objects.isNull(userTmp)){
             return Mono.empty();

@@ -10,11 +10,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.CoreSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
-import reactor.util.function.Tuples;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -38,16 +38,14 @@ public class TripController {
     }
 
     @GetMapping("{id}")
-    public Mono<EntityModel> getById(@PathVariable("id") final String id){
+    public Mono<EntityModel<Trip>> getById(@PathVariable("id") final String id){
         Trip trip = this.tripService.getById(id).share().block();
 
         EntityModel<Trip> model = EntityModel.of(trip);
         model.add(linkTo(methodOn(DriverController.class).getById(trip.getDriverId())).withRel("Driver"));
         model.add(linkTo(methodOn(VehicleController.class).getById(trip.getVehiclePlate())).withRel("Vehicle"));
 
-        Mono<EntityModel> monoTmp = Mono.just(model);
-
-        return monoTmp;
+        return Mono.just(model);
     }
 
     @PutMapping("{id}")

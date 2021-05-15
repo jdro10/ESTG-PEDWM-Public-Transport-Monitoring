@@ -31,15 +31,15 @@ public class VehicleService {
         return vehicleRepository.findById(plate);
     }
 
-    public Mono update(final String id, final Vehicle vehicle){
+    public Mono<Vehicle> update(final String id, final Vehicle vehicle){
         return vehicleRepository.save(vehicle);
     }
 
-    public Mono save(final Vehicle vehicle){
+    public Mono<Vehicle> save(final Vehicle vehicle){
         return vehicleRepository.save(vehicle);
     }
 
-    public Mono delete(final String plate){
+    public Mono<Vehicle> delete(final String plate){
         final Mono<Vehicle> vehicleTmp = getById(plate);
         if(Objects.isNull(vehicleTmp)){
             return Mono.empty();
