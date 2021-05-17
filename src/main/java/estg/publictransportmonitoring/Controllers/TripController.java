@@ -67,9 +67,19 @@ public class TripController {
     public Flux<EntityModel<TripReserve>> reserveTrip(@RequestBody TripReserve tripReserve) {
         Flux<Tuple3<User, Trip, TripReserve>> result = Flux.zip(this.userService.getById(tripReserve.getUserId()), this.tripService.getById(tripReserve.getTripId()), Mono.just(tripReserve));
 
-        return result.doOnNext(t -> t.getT3().setReservationId(UUID.randomUUID().toString()))
-                .flatMap(tr -> this.saveTripReserve(tripReserve))
-                .map(Responses::tripReserveResponse);
+        return result
+                .doOnNext(t -> t.getT3().setReservationId(UUID.randomUUID().toString()))
+                .map(s -> {
+                    if(s.getT2().getAvailableSeats() > 20){
+                        s.getT2().setAvailableSeats(s.getT2().getAvailableSeats() - 1);
+                        this.updateById(s.getT2().getId(), s.getT2()).subscribe();
+
+                        return true;
+                    }
+
+                    return false;
+                })
+                .flatMap(s -> s ? this.saveTripReserve(tripReserve).map(Responses::tripReserveResponse) : Flux.just());
     }
 
     private Mono<TripReserve> saveTripReserve(TripReserve tripReserve){
