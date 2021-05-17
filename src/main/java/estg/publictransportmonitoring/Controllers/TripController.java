@@ -6,16 +6,14 @@ import estg.publictransportmonitoring.Entities.Vehicle;
 import estg.publictransportmonitoring.Services.DriverService;
 import estg.publictransportmonitoring.Services.TripService;
 import estg.publictransportmonitoring.Services.VehicleService;
+import estg.publictransportmonitoring.utils.Responses;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
 import reactor.util.function.Tuple3;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -55,11 +53,12 @@ public class TripController {
     }
 
     @PostMapping
-    public void saveTrip(@RequestBody final Trip trip){
+    public Flux<EntityModel<Trip>> saveTrip(@RequestBody final Trip trip){
         Flux<Tuple3<Vehicle, Driver, Trip>> result = Flux.zip(this.vehicleService.getById(trip.getVehiclePlate()), this.driverService.getById(trip.getDriverId()), Mono.just(trip));
 
-        result.doOnNext(t -> t.getT3().setAvailableSeats(t.getT1().getCapacity()))
-                .flatMap(x -> this.save(trip)).subscribe();
+        return result.doOnNext(t -> t.getT3().setAvailableSeats(t.getT1().getCapacity()))
+                .flatMap(x -> this.save(trip))
+                .map(Responses::tripResponse);
     }
 
     private Mono<Trip> save(final Trip trip){
