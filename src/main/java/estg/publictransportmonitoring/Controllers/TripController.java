@@ -38,13 +38,7 @@ public class TripController {
 
     @GetMapping("{id}")
     public Mono<EntityModel<Trip>> getById(@PathVariable("id") final String id){
-        Trip trip = this.tripService.getById(id).share().block();
-
-        EntityModel<Trip> model = EntityModel.of(trip);
-        model.add(linkTo(methodOn(DriverController.class).getById(trip.getDriverId())).withRel("Driver"));
-        model.add(linkTo(methodOn(VehicleController.class).getById(trip.getVehiclePlate())).withRel("Vehicle"));
-
-        return Mono.just(model);
+        return this.tripService.getById(id).map(Responses::tripResponse);
     }
 
     @PutMapping("{id}")
