@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
+import reactor.util.function.Tuple3;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -55,9 +56,10 @@ public class TripController {
 
     @PostMapping
     public void saveTrip(@RequestBody final Trip trip){
-        Flux<Tuple2<Vehicle, Driver>> result = Flux.zip(this.vehicleService.getById(trip.getVehiclePlate()), this.driverService.getById(trip.getDriverId()));
+        Flux<Tuple3<Vehicle, Driver, Trip>> result = Flux.zip(this.vehicleService.getById(trip.getVehiclePlate()), this.driverService.getById(trip.getDriverId()), Mono.just(trip));
 
-        result.flatMap(x -> this.save(trip)).subscribe();
+        result.doOnNext(t -> t.getT3().setAvailableSeats(t.getT1().getCapacity()))
+                .flatMap(x -> this.save(trip)).subscribe();
     }
 
     private Mono<Trip> save(final Trip trip){
