@@ -1,11 +1,7 @@
 package estg.publictransportmonitoring.Controllers;
 
-import estg.publictransportmonitoring.Entities.Driver;
-import estg.publictransportmonitoring.Entities.Trip;
-import estg.publictransportmonitoring.Entities.Vehicle;
-import estg.publictransportmonitoring.Services.DriverService;
-import estg.publictransportmonitoring.Services.TripService;
-import estg.publictransportmonitoring.Services.VehicleService;
+import estg.publictransportmonitoring.Entities.*;
+import estg.publictransportmonitoring.Services.*;
 import estg.publictransportmonitoring.utils.Responses;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +9,10 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
 import reactor.util.function.Tuple3;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+import java.util.UUID;
 
 @AllArgsConstructor
 @RequestMapping("/trips")
@@ -30,6 +25,10 @@ public class TripController {
     private VehicleService vehicleService;
     @Autowired
     private DriverService driverService;
+    @Autowired
+    private TripReserveService tripReserveService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public Flux<Trip> getAll(){
@@ -64,4 +63,16 @@ public class TripController {
         return this.tripService.delete(id);
     }
 
+    @PostMapping("/reserve")
+    public Flux<EntityModel<TripReserve>> reserveTrip(@RequestBody TripReserve tripReserve) {
+        Flux<Tuple3<User, Trip, TripReserve>> result = Flux.zip(this.userService.getById(tripReserve.getUserId()), this.tripService.getById(tripReserve.getTripId()), Mono.just(tripReserve));
+
+        return result.doOnNext(t -> t.getT3().setReservationId(UUID.randomUUID().toString()))
+                .flatMap(tr -> this.saveTripReserve(tripReserve))
+                .map(Responses::tripReserveResponse);
+    }
+
+    private Mono<TripReserve> saveTripReserve(TripReserve tripReserve){
+        return this.tripReserveService.save(tripReserve);
+    }
 }

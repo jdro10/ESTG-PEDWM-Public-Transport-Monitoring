@@ -37,19 +37,19 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public Mono updateById(@PathVariable("id") final String id, @RequestBody final User user){
+    public Mono<User> updateById(@PathVariable("id") final String id, @RequestBody final User user){
         System.out.println("update user By Id");
         return userService.update(id,user);
     }
 
     @PostMapping
-    public Mono save(@RequestBody final User user){
+    public Mono<User> save(@RequestBody final User user){
         System.out.println("inserted a user");
         return userService.save(user);
     }
 
     @DeleteMapping("{id}")
-    public Mono delete(@PathVariable final String id){
+    public Mono<User> delete(@PathVariable final String id){
         System.out.println("delete user by id");
         return userService.delete(id);
     }
