@@ -9,7 +9,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
 import reactor.util.function.Tuple3;
 
 import java.util.UUID;
@@ -70,7 +69,7 @@ public class TripController {
         return result
                 .doOnNext(t -> t.getT3().setReservationId(UUID.randomUUID().toString()))
                 .map(s -> {
-                    if(s.getT2().getAvailableSeats() > 20){
+                    if(s.getT2().getAvailableSeats() > 0){
                         s.getT2().setAvailableSeats(s.getT2().getAvailableSeats() - 1);
                         this.updateById(s.getT2().getId(), s.getT2()).subscribe();
 

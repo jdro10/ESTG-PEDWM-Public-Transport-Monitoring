@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Document
 @ToString
 @Getter
