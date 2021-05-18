@@ -3,6 +3,7 @@ import java.util.Objects;
 
 import estg.publictransportmonitoring.Entities.User;
 import estg.publictransportmonitoring.Repositories.UserRepository;
+import estg.publictransportmonitoring.security.PBKDF2Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PBKDF2Encoder passwordEncoder;
+
     public Flux<User> getAll(){
         return userRepository.findAll().switchIfEmpty(Flux.empty());
     }
@@ -33,6 +37,8 @@ public class UserService {
     }
 
     public Mono<User> save(final User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println("password encriptada");
         return userRepository.save(user);
     }
 
