@@ -53,10 +53,7 @@
 }
 
 .logo {
+  margin-top: 2%;
   float: left;
 }
 
-.slogan {
-  float: right;
-  align-self: center;
-}

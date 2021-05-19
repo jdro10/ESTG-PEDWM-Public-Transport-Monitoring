@@ -23,10 +23,7 @@ const Header = () => {
         </ul>
         <section class="container">
             <div class="logo">
-                <img src={'/imgs/PTM.jpg'} alt="PTM"/>
-            </div>
-            <div class="slogan">
-                <label style={{fontFamily: "Brush Script MT", color: "#4F7942", fontSize:"25px" }}>O seu meio de transporte favorito...</label>
+                <img src={'/imgs/PTM.jpg'} alt="PTM" width="200px" height="150px"/>
             </div>
         </section>
     </div>
