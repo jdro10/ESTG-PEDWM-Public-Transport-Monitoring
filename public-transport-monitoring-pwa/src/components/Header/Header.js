@@ -23,7 +23,7 @@ const Header = () => {
         </ul>
         <section class="container">
             <div class="logo">
-                <img src={'/imgs/PTM.jpg'} alt="PTM" width="200px" height="150px"/>
+                <img src={'/imgs/TP.png'} alt="PTM" width="300px" height="150px"/>
             </div>
         </section>
     </div>
