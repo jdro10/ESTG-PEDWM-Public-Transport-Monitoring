@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private String password;
     private List<Role> roles;
     private Boolean enabled;
+    private String email;
 
 
     @Override

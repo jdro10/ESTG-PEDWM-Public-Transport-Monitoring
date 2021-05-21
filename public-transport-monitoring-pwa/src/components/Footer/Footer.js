@@ -5,27 +5,27 @@ import 'font-awesome/css/font-awesome.min.css';
 const Footer = () => {
   return (
     <footer>
-      <section class="ft-main">
-        <div class="ft-main-item">
-          <h2 class="ft-title">Sobre</h2>
+      <section className="ft-main">
+        <div className="ft-main-item">
+          <h2 className="ft-title">Sobre</h2>
           <ul>
             <li>
-              <a href="#">Paragens</a>
+              <a>Paragens</a>
             </li>
             <li>
-              <a href="#">Vantagens</a>
+              <a>Vantagens</a>
             </li>
             <li>
-              <a href="#">Pontos de venda</a>
+              <a>Pontos de venda</a>
             </li>
             <li>
-              <a href="#">Descontos</a>
+              <a>Descontos</a>
             </li>
           </ul>
         </div>
 
-        <div class="ft-main-item">
-          <h2 class="ft-title">Alguma dúvida?</h2>
+        <div className="ft-main-item">
+          <h2 className="ft-title">Alguma dúvida?</h2>
           <p>Insere o email e nós contactamos!</p>
           <form>
             <input
@@ -38,33 +38,33 @@ const Footer = () => {
         </div>
       </section>
 
-      <section class="ft-social">
-        <ul class="ft-social-list">
+      <section className="ft-social">
+        <ul className="ft-social-list">
           <li>
-            <a href="#">
-              <i class="fa fa-facebook"></i>
+            <a>
+              <i className="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="fa fa-youtube"></i>
+            <a>
+              <i className="fa fa-youtube"></i>
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="fa fa-instagram"></i>
+            <a>
+              <i className="fa fa-instagram"></i>
             </a>
           </li>
         </ul>
       </section>
 
-      <section class="ft-legal">
-        <ul class="ft-legal-list">
+      <section className="ft-legal">
+        <ul className="ft-legal-list">
           <li>
-            <a href="#">Termos e Condições</a>
+            <a>Termos e Condições</a>
           </li>
           <li>
-            <a href="#">Política de Privacidade</a>
+            <a>Política de Privacidade</a>
           </li>
           <li>&copy; 2021 Copyright PTM</li>
         </ul>

@@ -5,24 +5,24 @@ import "./header.css";
 const Header = () => {
   return (
       <div>
-        <ul class="navigation">
+        <ul className="navigation">
         <li>
-            <a href="#">Horários</a>
+            <a>Horários</a>
         </li>
         <li>
-            <a href="#">Bilhetes</a>
+            <a>Bilhetes</a>
         </li>
         <li>
-            <a href="#">Como comprar</a>
+            <a>Como comprar</a>
         </li>
         <li>
-            <a href="#" style={{color: "#2ECC71"}}>
+            <a  style={{color: "#2ECC71"}}>
             Conta
             </a>
         </li>
         </ul>
-        <section class="container">
-            <div class="logo">
+        <section className="container">
+            <div className="logo">
                 <img src={'/imgs/TP.png'} alt="PTM" width="300px" height="150px"/>
             </div>
         </section>

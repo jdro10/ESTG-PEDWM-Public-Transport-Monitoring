@@ -29,11 +29,12 @@ public class AuthenticationREST {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest ar) {
-        System.out.println("entrei");
         return userService.getById(ar.getUsername()).map((userDetails) -> {
             if (passwordEncoder.encode(ar.getPassword()).equals(userDetails.getPassword())) {
+                System.out.println("toma o token ");
                 return ResponseEntity.ok(new AuthResponse(jwtUtil.generateToken(userDetails)));
             } else {
+                System.out.println("NAO AUTORIZADO");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
         }).defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
