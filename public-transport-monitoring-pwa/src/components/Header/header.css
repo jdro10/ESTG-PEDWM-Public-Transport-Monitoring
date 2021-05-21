@@ -9,19 +9,19 @@
   justify-content: space-evenly;
   margin: 0;
   list-style: none;
-  background: #484848;
+  background-color: #484848;
+  color: white;
 }
 
 .navigation a {
   text-decoration: none;
   display: block;
   padding: 1em;
-  color: white;
 }
 
 .navigation a:hover {
-  background: #e8ebe6;
-  color: black;
+  background-color: #e8ebe6;
+  color: black !important;
 }
 
 @media all and (max-width: 800px) {
@@ -56,4 +56,3 @@
   margin-top: 2%;
   float: left;
 }
-
