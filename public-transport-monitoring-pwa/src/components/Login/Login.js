@@ -8,11 +8,11 @@ const Login = () => {
     return (
         <div id="loginDiv" className="Login">
             <Form>
-                <Form.Group size="lg" controlId="email">
+                <Form.Group id="input" size="lg" controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control type="email"/>
                 </Form.Group>
-                <Form.Group size="lg" controlId="password">
+                <Form.Group id="input" size="lg" controlId="password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password"/>
                 </Form.Group>

@@ -9,7 +9,7 @@ function App() {
   return (
     <div>
       <Header />
-      {/* <Login /> */}
+      <Login />
       <Footer />
     </div>
   );
