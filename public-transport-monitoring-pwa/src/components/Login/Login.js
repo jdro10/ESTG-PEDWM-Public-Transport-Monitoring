@@ -1,6 +1,5 @@
 import './login.css'
-import React , { useState } from 'react'
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -34,8 +33,8 @@ const Login = () => {
         <div id="loginDiv" className="Login">
             <Form>
                 <Form.Group id="input" size="lg" controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control autoFocus placeholder="examplo@gmail.com" />
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control autoFocus placeholder="exemplo" />
                 </Form.Group>
                 <Form.Group id="input" size="lg" controlId="password">
                     <Form.Label>Password</Form.Label>
