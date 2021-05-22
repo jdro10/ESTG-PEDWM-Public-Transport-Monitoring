@@ -32,6 +32,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Mono<User> getByUsername(final String username){
+        return userRepository.findByUsername(username).switchIfEmpty(Mono.empty());
+    }
+
     public Mono<User> update(final String id, final User user){
         return userRepository.save(user);
     }

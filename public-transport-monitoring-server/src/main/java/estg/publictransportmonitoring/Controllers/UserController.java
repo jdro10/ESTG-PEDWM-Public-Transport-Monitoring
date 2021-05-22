@@ -3,6 +3,7 @@ package estg.publictransportmonitoring.Controllers;
 import estg.publictransportmonitoring.Entities.User;
 import estg.publictransportmonitoring.Services.UserService;
 import estg.publictransportmonitoring.models.Role;
+import estg.publictransportmonitoring.utils.Responses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RequestMapping("/users")
 @AllArgsConstructor
@@ -46,9 +48,12 @@ public class UserController {
 
         user.setRoles(role);
         user.setEnabled(true);
-        System.out.println("inserted a user");
 
-        return userService.save(user);
+        Mono<User> userToSave = Mono.just(user);
+
+        return userToSave
+                .map(x -> !this.userService.getByUsername(x.getUsername()).equals(Mono.empty()))
+                .flatMap(y -> y ? this.userService.save(user) :  Mono.empty());
     }
 
     @DeleteMapping("{id}")
