@@ -1,19 +1,19 @@
 @media all and (min-width: 480px) {
-    .Login {
-      padding: 60px 0;
-    }
-  
-    .Login form {
-      margin: 0 auto;
-      max-width: 420px;
-    }
-  }
+	.Login {
+		padding: 60px 0;
+	}
+
+	.Login form {
+		margin: 0 auto;
+		max-width: 420px;
+	}
+}
 
 #signupMsg {
-    margin-left: 17%;
-    margin-top: 5%;
+	margin-left: 17%;
+	margin-top: 5%;
 }
 
 #input {
-  width: 100%;
+	width: 100%;
 }
