@@ -1,0 +1,17 @@
+#dropdown-basic-button {
+	width: 100% !important;
+}
+
+#dropdown-basic-button > * {
+	width: 100% !important;
+}
+
+.badges {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+/* .badges > * + * {
+	margin-left: 10px;
+} */

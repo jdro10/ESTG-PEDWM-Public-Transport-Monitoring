@@ -23,8 +23,6 @@ public class TripController {
     @Autowired
     private VehicleService vehicleService;
     @Autowired
-    private DriverService driverService;
-    @Autowired
     private TripReserveService tripReserveService;
     @Autowired
     private UserService userService;
@@ -46,8 +44,8 @@ public class TripController {
 
     @PostMapping
     public Flux<EntityModel<Trip>> saveTrip(@RequestBody final Trip trip){
-        Flux<Tuple3<Vehicle, Driver, Trip>> result = Flux.zip(this.vehicleService.getById(trip.getVehiclePlate()), this.driverService.getById(trip.getDriverId()), Mono.just(trip));
-
+        Flux<Tuple3<Vehicle, User, Trip>> result = Flux.zip(this.vehicleService.getById(trip.getVehiclePlate()), this.userService.getById(trip.getDriverId()), Mono.just(trip));
+        System.out.println(result.share().blockFirst());
         return result.doOnNext(t -> t.getT3().setAvailableSeats(t.getT1().getCapacity()))
                 .flatMap(x -> this.save(trip))
                 .map(Responses::tripResponse);

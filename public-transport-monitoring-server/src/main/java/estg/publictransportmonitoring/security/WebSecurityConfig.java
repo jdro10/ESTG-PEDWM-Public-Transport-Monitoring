@@ -43,7 +43,7 @@ public class WebSecurityConfig {
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers("/login").permitAll()
-                .pathMatchers("/users").permitAll()
+                .pathMatchers("/*").permitAll() //PERMITIR TODAS AS ROTAS PARA TESTE
                 .anyExchange().authenticated()
                 .and().build();
     }
