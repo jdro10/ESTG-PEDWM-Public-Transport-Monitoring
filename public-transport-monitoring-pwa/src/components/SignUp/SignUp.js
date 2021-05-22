@@ -8,18 +8,20 @@ const SignUp = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const signUp = async (username, email, password) => {
-		const req = await fetch('http://localhost:8080/users', {
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json'
-			},
-			body: JSON.stringify({
-				userName: username,
-				password: password,
-				email: email
-			})
-		});
+
+  const signUp = async (username, email, password) => {
+        const req = await fetch('http://localhost:8080/users', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                "username": username,
+                "password": password,
+                "email": email
+            })
+        });
+
 
 		const res = await req.json();
 
