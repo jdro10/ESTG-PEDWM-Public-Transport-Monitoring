@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import CreateTrip from './components/Trip/Create/CreateTrip';
 import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
+import Speedometer from './components/Speedometer/Speedometer';
 
 function App() {
 	return (
@@ -17,27 +18,40 @@ function App() {
 			<div>
 				<Header />
 
-				<Route path='/' exact render={(props) => (
-					<div>
-						<Login />
-					</div>
-          		)} />
-           		
-				<Route path='/reserve' exact render={ (props) => (
-					<div>
-						<ReserveTrip />
-					
-					</div>
-				)} />
+				<Route
+					path='/'
+					exact
+					render={(props) => (
+						<div>
+							<Login />
+						</div>
+					)}
+				/>
 
-				<Route path='/searchtrip' exact render={ (props) => (
-					<div>
-						<SearchTrip />
-					</div>
-				)} />
-				
+				<Speedometer />
+
+				<Route
+					path='/reserve'
+					exact
+					render={(props) => (
+						<div>
+							<ReserveTrip />
+						</div>
+					)}
+				/>
+
+				<Route
+					path='/searchtrip'
+					exact
+					render={(props) => (
+						<div>
+							<SearchTrip />
+						</div>
+					)}
+				/>
+
 				<Route path='/signup' component={SignUp} />
-				{/* <CreateTrip /> */ }
+				{/* <CreateTrip /> */}
 				<Footer />
 			</div>
 		</Router>
