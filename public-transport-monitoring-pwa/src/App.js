@@ -12,26 +12,6 @@ import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
 
 function App() {
-	const [allTrips, setAllTrips] = useState([])
-
-	useEffect(() => {
-		const getTrips = async () => {
-			const tripsFromServer = await getAllTrips();
-			setAllTrips(tripsFromServer);
-		}
-
-		getTrips();
-
-	}, [])
-
-    const getAllTrips = async() => {
-        const req = await fetch('http://localhost:8080/trips')
-
-        const data = await req.json()
-
-        return data;
-    }
-
 	return (
 		<Router>
 			<div>
@@ -45,7 +25,7 @@ function App() {
            		
 				<Route path='/reserve' exact render={ (props) => (
 					<div>
-						<ReserveTrip trips={allTrips}/>
+						<ReserveTrip />
 					
 					</div>
 				)} />
