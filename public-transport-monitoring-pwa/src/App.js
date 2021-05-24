@@ -11,6 +11,7 @@ import CreateTrip from './components/Trip/Create/CreateTrip';
 import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
 import Speedometer from './components/Speedometer/Speedometer';
+import Map from './components/Map/Map';
 
 function App() {
 	return (
@@ -28,7 +29,16 @@ function App() {
 					)}
 				/>
 
-				<Speedometer />
+				{/* <Speedometer /> */}
+				<Route
+					path='/map'
+					exact
+					render={() => (
+						<div>
+							<Map />
+						</div>
+					)}
+				/>
 
 				<Route
 					path='/reserve'

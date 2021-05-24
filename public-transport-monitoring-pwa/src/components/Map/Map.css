@@ -1,0 +1,9 @@
+#leaflet-map {
+	height: 900px;
+	width: 100%;
+	background-color: aqua;
+}
+
+#div {
+	height: 300px;
+}
