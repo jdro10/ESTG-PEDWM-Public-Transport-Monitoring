@@ -61,7 +61,6 @@ const Login = () => {
 						Não tem uma conta?{' '}
 						<Link to='/signup'>Registe-se aqui.</Link>
 						<br></br>
-						<Link to='/reserve'>Reserve aqui.</Link>
 						<Link to='/searchtrip'>Procurar viagem</Link>
 					</Form.Label>
 				</div>

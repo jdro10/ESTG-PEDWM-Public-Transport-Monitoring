@@ -4,8 +4,9 @@ import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import './reserveTrip.css';
 import Modal from 'react-bootstrap/Modal';
+import { useLocation } from 'react-router-dom';
 
-const ReserveTrip = ({ trips }) => {
+const ReserveTrip = () => {
     const [show, setShow] = useState(false);
     const [tripInfo, setTripInfo] = useState({
         path: [],
@@ -14,6 +15,15 @@ const ReserveTrip = ({ trips }) => {
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true);
+
+    const location = useLocation();
+    const trips = location.state.trips
+
+    const filteredTrips = []
+
+    const filterTrips = trips.map(trip => {
+        trip.path.map(tpath => tpath === 'Porto' ? filteredTrips.push(trip) : '')
+    })
 
     return (
         <div id="tableDiv">
@@ -31,7 +41,7 @@ const ReserveTrip = ({ trips }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {trips.map(trip => (
+                        {filteredTrips.map(trip => (
                             <tr>
                                 <td>{trip.path[0]}</td>
                                 <td>{trip.path[trip.path.length - 1]}</td>

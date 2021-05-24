@@ -1,10 +1,35 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import { InputGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const SearchTrip = () => {
+    const [allTrips, setAllTrips] = useState([])
+    const [origin, setOrigin] = useState('')
+    const [destination, setDestination] = useState('')
+    const [date, setDate] = useState('')
+ 
+	useEffect(() => {
+		const getTrips = async () => {
+			const tripsFromServer = await getAllTrips();
+			setAllTrips(tripsFromServer);
+		}
+
+		getTrips();
+
+	}, [])
+
+    const getAllTrips = async() => {
+        const req = await fetch('http://localhost:8080/trips')
+
+        const data = await req.json()
+
+        return data;
+    }
+
     return (
         <div className='Login'>
             <Form>
@@ -20,6 +45,8 @@ const SearchTrip = () => {
                     </InputGroup.Prepend>
                     <FormControl
                         placeholder="Origem"
+                        value = {origin}
+                        onChange={(e) => setOrigin(e.currentTarget.value)}
                     />
                 </InputGroup>
                 <InputGroup className="mb-3">
@@ -33,6 +60,8 @@ const SearchTrip = () => {
                     </InputGroup.Prepend>
                     <FormControl
                         placeholder="Destino"
+                        value = {destination}
+                        onChange={(e) => setDestination(e.currentTarget.value)}
                     />
                 </InputGroup>
                 <InputGroup className="mb-3">
@@ -46,9 +75,11 @@ const SearchTrip = () => {
                     </InputGroup.Prepend>
                     <FormControl
                         placeholder="25/05/2021"
+                        value = {date}
+                        onChange={(e) => setDate(e.currentTarget.value)}
                     />
                 </InputGroup>
-                <Button variant="success">Pesquisar</Button>
+                <Button variant="success"><Link to={{ pathname: "/reserve", state: { trips:  allTrips} }}>Pesquisar</Link></Button>
             </Form>
         </div>
     )
