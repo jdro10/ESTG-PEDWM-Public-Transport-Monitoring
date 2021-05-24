@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import CreateTrip from './components/Trip/Create/CreateTrip';
 import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
+import Location from './components/Location/Location';
 
 function App() {
 	return (
@@ -38,6 +39,7 @@ function App() {
 				
 				<Route path='/signup' component={SignUp} />
 				{/* <CreateTrip /> */ }
+				<Location />
 				<Footer />
 			</div>
 		</Router>
