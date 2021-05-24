@@ -1,0 +1,15 @@
+#tableDiv {
+	padding-top: 1%;
+}
+
+td {
+	text-align: center;
+	vertical-align: middle;
+	width: 500px;
+}
+
+th {
+	text-align: center;
+	vertical-align: middle;
+	width: 500px;
+}
