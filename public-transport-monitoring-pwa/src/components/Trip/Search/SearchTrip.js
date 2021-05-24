@@ -79,7 +79,7 @@ const SearchTrip = () => {
                         onChange={(e) => setDate(e.currentTarget.value)}
                     />
                 </InputGroup>
-                <Button variant="success"><Link to={{ pathname: "/reserve", state: { trips:  allTrips} }}>Pesquisar</Link></Button>
+                <Button variant="success"><Link to={{ pathname: "/reserve", state: { trips:  allTrips, origin: origin, destination: destination, date: date} } }>Pesquisar</Link></Button>
             </Form>
         </div>
     )

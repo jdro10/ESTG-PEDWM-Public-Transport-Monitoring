@@ -12,6 +12,7 @@ import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
 import Speedometer from './components/Speedometer/Speedometer';
 import Map from './components/Map/Map';
+import Location from './components/Location/Location';
 
 function App() {
 	return (
@@ -62,6 +63,7 @@ function App() {
 
 				<Route path='/signup' component={SignUp} />
 				{/* <CreateTrip /> */}
+				<Location />
 				<Footer />
 			</div>
 		</Router>
