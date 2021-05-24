@@ -10,6 +10,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import CreateTrip from './components/Trip/Create/CreateTrip';
 import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
+import Speedometer from './components/Speedometer/Speedometer';
+import Map from './components/Map/Map';
 import Location from './components/Location/Location';
 
 function App() {
@@ -18,27 +20,49 @@ function App() {
 			<div>
 				<Header />
 
-				<Route path='/' exact render={(props) => (
-					<div>
-						<Login />
-					</div>
-          		)} />
-           		
-				<Route path='/reserve' exact render={ (props) => (
-					<div>
-						<ReserveTrip />
-					
-					</div>
-				)} />
+				<Route
+					path='/'
+					exact
+					render={(props) => (
+						<div>
+							<Login />
+						</div>
+					)}
+				/>
 
-				<Route path='/searchtrip' exact render={ (props) => (
-					<div>
-						<SearchTrip />
-					</div>
-				)} />
-				
+				{/* <Speedometer /> */}
+				<Route
+					path='/map'
+					exact
+					render={() => (
+						<div>
+							<Map />
+						</div>
+					)}
+				/>
+
+				<Route
+					path='/reserve'
+					exact
+					render={(props) => (
+						<div>
+							<ReserveTrip />
+						</div>
+					)}
+				/>
+
+				<Route
+					path='/searchtrip'
+					exact
+					render={(props) => (
+						<div>
+							<SearchTrip />
+						</div>
+					)}
+				/>
+
 				<Route path='/signup' component={SignUp} />
-				{/* <CreateTrip /> */ }
+				{/* <CreateTrip /> */}
 				<Location />
 				<Footer />
 			</div>
