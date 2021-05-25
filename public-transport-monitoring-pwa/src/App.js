@@ -30,7 +30,7 @@ function App() {
 					)}
 				/>
 
-				{/* <Speedometer /> */}
+				{ /* <Speedometer /> */}
 
 				<Location />
 				<Route
