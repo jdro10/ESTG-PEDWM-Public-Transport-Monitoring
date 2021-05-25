@@ -12,7 +12,8 @@ import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
 import Speedometer from './components/Speedometer/Speedometer';
 import Map from './components/Map/Map';
-import Location from './components/Location/Location';
+import Location from './components/Sensors/Location';
+import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
 
 function App() {
 	return (
@@ -31,7 +32,7 @@ function App() {
 				/>
 
 				{ /* <Speedometer /> */}
-
+				<AccelerometerSensor/>
 				<Location />
 				<Route
 					path='/map'

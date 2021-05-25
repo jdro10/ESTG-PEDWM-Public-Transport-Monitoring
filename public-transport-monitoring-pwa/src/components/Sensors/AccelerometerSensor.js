@@ -1,17 +1,10 @@
+import React, { useState }from 'react'
 import { Accelerometer } from 'motion-sensors-polyfill';
-import React, { useState, useEffect, PropTypes } from 'react';
 
-const Location = () => {
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
+const AccelerometerSensor = () => {
     const [x, setX] = useState('')
     const [y, setY] = useState('')
     const [z, setZ] = useState('')
-
-    const location = navigator.geolocation.getCurrentPosition((position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-    })
 
     let accelerometer;
 
@@ -30,10 +23,9 @@ const Location = () => {
 
     return (
         <div>
-            <h3> Latitude: {latitude} Longitude: {longitude}</h3>
-            <h1>X: {x} | Y: {y} | Z: {z}</h1>
+            <p>X: {x} | Y: {y} | Z: {z}</p>
         </div>
     )
 }
 
-export default Location
+export default AccelerometerSensor
