@@ -1,9 +1,5 @@
-#leaflet-map {
-	height: 900px;
-	width: 100%;
-	background-color: aqua;
-}
+@import url('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css');
 
-#div {
-	height: 300px;
+.leaflet-container {
+	height: 500px;
 }
