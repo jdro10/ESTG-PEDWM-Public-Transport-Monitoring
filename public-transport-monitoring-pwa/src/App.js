@@ -31,6 +31,8 @@ function App() {
 				/>
 
 				{/* <Speedometer /> */}
+
+				<Location />
 				<Route
 					path='/map'
 					exact
@@ -63,7 +65,6 @@ function App() {
 
 				<Route path='/signup' component={SignUp} />
 				{/* <CreateTrip /> */}
-				<Location />
 				<Footer />
 			</div>
 		</Router>
