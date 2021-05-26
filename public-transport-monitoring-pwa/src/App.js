@@ -14,6 +14,7 @@ import Speedometer from './components/Speedometer/Speedometer';
 import Map from './components/Map/Map';
 import Location from './components/Sensors/Location';
 import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
+import Socket from './components/Socket/Socket';
 
 function App() {
 	return (
@@ -31,8 +32,11 @@ function App() {
 					)}
 				/>
 
-				{ /* <Speedometer /> */}
-				<AccelerometerSensor/>
+				{/* <Speedometer /> */}
+				<AccelerometerSensor />
+
+				{/* <Socket /> */}
+
 				<Location />
 				<Route
 					path='/map'
