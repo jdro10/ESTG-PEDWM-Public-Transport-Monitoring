@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -20,7 +21,6 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PBKDF2Encoder passwordEncoder;
 
@@ -32,18 +32,19 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public Mono<User> getByUsername(final String username){
-        return userRepository.findByUsername(username).switchIfEmpty(Mono.empty());
-    }
-
     public Mono<User> update(final String id, final User user){
         return userRepository.save(user);
     }
 
-    public Mono<User> save(final User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println("password encriptada");
-        return userRepository.save(user);
+    public Mono<User> save(final User user) {
+        return this.userRepository.existsByUsernameAndEmail(user.getUsername(), user.getEmail())
+                .doOnNext(usernameExists -> {
+                    if(usernameExists){
+                       throw new EntityExistsException("Utilizador já existe");
+                    }
+
+                    user.setPassword(passwordEncoder.encode(user.getPassword()));
+                }).then(this.userRepository.save(user));
     }
 
     public Mono<User> delete(final String id){

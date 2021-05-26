@@ -45,14 +45,10 @@ public class TripController {
     @PostMapping
     public Flux<EntityModel<Trip>> saveTrip(@RequestBody final Trip trip){
         Flux<Tuple3<Vehicle, User, Trip>> result = Flux.zip(this.vehicleService.getById(trip.getVehiclePlate()), this.userService.getById(trip.getDriverId()), Mono.just(trip));
-        System.out.println(result.share().blockFirst());
-        return result.doOnNext(t -> t.getT3().setAvailableSeats(t.getT1().getCapacity()))
-                .flatMap(x -> this.save(trip))
-                .map(Responses::tripResponse);
-    }
 
-    private Mono<Trip> save(final Trip trip){
-        return this.tripService.save(trip);
+        return result.doOnNext(t -> t.getT3().setAvailableSeats(t.getT1().getCapacity()))
+                .flatMap(x -> this.tripService.save(trip))
+                .map(Responses::tripResponse);
     }
 
     @DeleteMapping("{id}")
