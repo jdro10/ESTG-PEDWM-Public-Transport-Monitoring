@@ -44,6 +44,7 @@ public class WebSecurityConfig {
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers("/login").permitAll()
+                .pathMatchers("/users/teste").permitAll()
                 .pathMatchers("/ws-socket/info").permitAll()
                 .pathMatchers("/*").permitAll() //PERMITIR TODAS AS ROTAS PARA TESTE
                 .anyExchange().authenticated()

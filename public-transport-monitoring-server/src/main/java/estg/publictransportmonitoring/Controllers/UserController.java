@@ -49,11 +49,7 @@ public class UserController {
         user.setRoles(role);
         user.setEnabled(true);
 
-        Mono<User> userToSave = Mono.just(user);
-
-        return userToSave
-                .map(x -> !this.userService.getByUsername(x.getUsername()).equals(Mono.empty()))
-                .flatMap(y -> y ? this.userService.save(user) :  Mono.empty());
+        return this.userService.save(user);
     }
 
     @DeleteMapping("{id}")
