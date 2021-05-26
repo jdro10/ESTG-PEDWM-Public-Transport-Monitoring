@@ -28,6 +28,12 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
         ServerHttpRequest request = swe.getRequest();
         String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
+        // PRA RECEBER O TOKEN QUE ESTÁ A PASSEAR
+        if (authHeader == null){
+            authHeader = swe.getRequest().getQueryParams().getFirst("access_token");
+            System.out.println(authHeader);
+        }
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String authToken = authHeader.substring(7);
             Authentication auth = new UsernamePasswordAuthenticationToken(authToken, authToken);

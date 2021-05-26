@@ -34,7 +34,8 @@ public class WebSecurityConfig {
                     return Mono.fromRunnable(() -> {
                         swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
                     });
-                }).and()
+                })
+                .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -43,6 +44,7 @@ public class WebSecurityConfig {
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers("/login").permitAll()
+                .pathMatchers("/ws-socket/info").permitAll()
                 .pathMatchers("/*").permitAll() //PERMITIR TODAS AS ROTAS PARA TESTE
                 .anyExchange().authenticated()
                 .and().build();
