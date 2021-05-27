@@ -24,8 +24,14 @@ const SignUp = () => {
 
 
 		const res = await req.json();
+		
+		if(res.id !== undefined){
+			alert("Registado com sucesso.")
+		} else {
+			alert("Erro. Utilizador ou email já existente.")
+		}
 
-		alert('registado!' + res.id);
+
 	};
 
 	return (
@@ -61,7 +67,6 @@ const SignUp = () => {
 					variant='success'
 					block
 					size='lg'
-					type='submit'
 				>
 					{' '}
 					Registar{' '}

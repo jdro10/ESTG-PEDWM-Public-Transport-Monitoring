@@ -37,14 +37,21 @@ public class UserService {
     }
 
     public Mono<User> save(final User user) {
-        return this.userRepository.existsByUsernameAndEmail(user.getUsername(), user.getEmail())
+        return this.userRepository.existsByUsername(user.getUsername())
                 .doOnNext(usernameExists -> {
                     if(usernameExists){
                        throw new EntityExistsException("Utilizador já existe");
                     }
+                })
+                .then(this.userRepository.existsByEmail(user.getEmail())
+                    .doOnNext(emailExists -> {
+                        if(emailExists){
+                            throw new EntityExistsException("Email já existe");
+                        }
 
-                    user.setPassword(passwordEncoder.encode(user.getPassword()));
-                }).then(this.userRepository.save(user));
+                        user.setPassword(passwordEncoder.encode(user.getPassword()));
+                    }))
+                .then(this.userRepository.save(user));
     }
 
     public Mono<User> delete(final String id){
