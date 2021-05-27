@@ -17,5 +17,6 @@ public class TripReserve {
     private String reservationId;
     private String userId;
     private String tripId;
+    private String date;
 
 }

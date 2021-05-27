@@ -104,7 +104,6 @@ const ReserveTrip = ({ origin, destination, date }) => {
                     </Modal.Footer>
                 </Modal.Dialog>
             </Modal>
-            {console.log(tripInfo)}
         </div>
     )
 }

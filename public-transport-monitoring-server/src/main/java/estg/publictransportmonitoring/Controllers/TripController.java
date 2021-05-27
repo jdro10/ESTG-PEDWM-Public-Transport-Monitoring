@@ -71,6 +71,7 @@ public class TripController {
                 .map(s -> {
                     if (s.getT2().getAvailableSeats() > 0) {
                         s.getT2().setAvailableSeats(s.getT2().getAvailableSeats() - 1);
+                        s.getT3().setDate(s.getT2().getDate());
                         this.updateById(s.getT2().getId(), s.getT2()).subscribe();
 
                         return true;
