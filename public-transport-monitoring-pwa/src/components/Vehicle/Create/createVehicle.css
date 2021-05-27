@@ -1,0 +1,14 @@
+@media all and (min-width: 480px) {
+	.CreateVehicle {
+		padding: 60px 0;
+	}
+
+	.CreateVehicle form {
+		margin: 0 auto;
+		max-width: 420px;
+	}
+}
+
+#input {
+	width: 100%;
+}

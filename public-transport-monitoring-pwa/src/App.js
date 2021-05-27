@@ -15,6 +15,7 @@ import Map from './components/Map/Map';
 import Location from './components/Sensors/Location';
 import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
 import Socket from './components/Socket/Socket';
+import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
 
 function App() {
 	return (
@@ -76,6 +77,16 @@ function App() {
 					render={(props) => (
 						<div>
 							<CreateTrip />
+						</div>
+					)}
+				/>
+
+				<Route
+					path='/createvehicle'
+					exact
+					render={(props) => (
+						<div>
+							<CreateVehicle />
 						</div>
 					)}
 				/>
