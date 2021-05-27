@@ -69,7 +69,17 @@ function App() {
 				/>
 
 				<Route path='/signup' component={SignUp} />
-				{/* <CreateTrip /> */}
+
+				<Route
+					path='/createtrip'
+					exact
+					render={(props) => (
+						<div>
+							<CreateTrip />
+						</div>
+					)}
+				/>
+
 				<Footer />
 			</div>
 		</Router>
