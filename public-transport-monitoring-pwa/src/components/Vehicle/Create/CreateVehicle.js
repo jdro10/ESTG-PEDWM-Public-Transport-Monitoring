@@ -22,7 +22,7 @@ const CreateVehicle = () => {
 
 		const res = await req.json();
 
-		if (res.plate !== undefined) {
+		if (res.errorMessage === undefined) {
 			alert('Registado com sucesso.');
 		} else {
 			alert('Erro na criação do veículo.');
