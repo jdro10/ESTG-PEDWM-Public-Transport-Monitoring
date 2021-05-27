@@ -3,6 +3,7 @@ package estg.publictransportmonitoring.Controllers;
 
 import estg.publictransportmonitoring.Entities.Vehicle;
 import estg.publictransportmonitoring.Services.VehicleService;
+import estg.publictransportmonitoring.models.ErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,8 +45,11 @@ public class VehicleController {
     }
 
     @PostMapping
-    public Mono<Vehicle> save(@RequestBody final Vehicle vehicle){
-        System.out.println("inserted a vehicle");
+    public Mono save(@RequestBody final Vehicle vehicle){
+        if (vehicle.getBrand().equals("") || vehicle.getPlate().equals("") || vehicle.getCapacity() == 0){
+            ErrorMessage error = new ErrorMessage("Dados incorretos");
+            return Mono.just(error);
+        }
         return vehicleService.save(vehicle);
     }
 

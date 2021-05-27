@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Getter
 @Setter
+@NoArgsConstructor
 public class Vehicle {
 
     @Id

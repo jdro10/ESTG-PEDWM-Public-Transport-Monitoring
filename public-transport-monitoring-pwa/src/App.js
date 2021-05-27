@@ -16,6 +16,7 @@ import Location from './components/Sensors/Location';
 import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
 import Socket from './components/Socket/Socket';
 import UserProfile from './components/UserProfile/UserProfile';
+import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
 
 function App() {
 	return (
@@ -70,9 +71,31 @@ function App() {
 				/>
 
 				<Route path='/signup' component={SignUp} />
+
 				{/* <CreateTrip /> */}
 
 				<Route path='/userprofile' component={UserProfile} />
+
+				<Route
+					path='/createtrip'
+					exact
+					render={(props) => (
+						<div>
+							<CreateTrip />
+						</div>
+					)}
+				/>
+
+				<Route
+					path='/createvehicle'
+					exact
+					render={(props) => (
+						<div>
+							<CreateVehicle />
+						</div>
+					)}
+				/>
+
 				<Footer />
 			</div>
 		</Router>
