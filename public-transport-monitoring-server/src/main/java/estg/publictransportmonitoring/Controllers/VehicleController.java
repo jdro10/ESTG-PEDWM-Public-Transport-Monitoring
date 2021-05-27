@@ -39,7 +39,7 @@ public class VehicleController {
     }
 
     @PutMapping("{id}")
-    public Mono updateById(@PathVariable("id") final String id, @RequestBody final Vehicle vehicle){
+    public Mono<Vehicle> updateById(@PathVariable("id") final String id, @RequestBody final Vehicle vehicle){
         System.out.println("update vehicle By Id");
         return vehicleService.update(id,vehicle);
     }
@@ -54,7 +54,7 @@ public class VehicleController {
     }
 
     @DeleteMapping("{id}")
-    public Mono delete(@PathVariable final String id){
+    public Mono<Vehicle> delete(@PathVariable final String id){
         System.out.println("delete vehicle by id");
         return vehicleService.delete(id);
     }

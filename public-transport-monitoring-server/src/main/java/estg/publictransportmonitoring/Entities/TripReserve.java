@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Document
 @Getter
 @Setter
@@ -16,5 +17,6 @@ public class TripReserve {
     private String reservationId;
     private String userId;
     private String tripId;
+    private String date;
 
 }

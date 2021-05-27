@@ -1,7 +1,9 @@
 package estg.publictransportmonitoring.Services;
 
 import estg.publictransportmonitoring.Entities.Trip;
+import estg.publictransportmonitoring.Entities.TripReserve;
 import estg.publictransportmonitoring.Repositories.TripRepository;
+import estg.publictransportmonitoring.Repositories.TripReserveRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class TripService {
 
     @Autowired
     private TripRepository tripRepository;
+    @Autowired
+    private TripReserveRepository tripReserveRepository;
 
     public Flux<Trip> getAll(){
         return this.tripRepository.findAll().switchIfEmpty(Flux.empty());
@@ -33,6 +37,10 @@ public class TripService {
 
     public Mono<Trip> save(final Trip trip){
         return this.tripRepository.save(trip);
+    }
+
+    public Flux<TripReserve> getReservatedTrips(){
+        return  this.tripReserveRepository.findAll();
     }
 
     public Mono<Trip> delete(final String id){

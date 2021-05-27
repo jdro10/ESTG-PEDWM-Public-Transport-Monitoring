@@ -15,6 +15,7 @@ import Map from './components/Map/Map';
 import Location from './components/Sensors/Location';
 import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
 import Socket from './components/Socket/Socket';
+import UserProfile from './components/UserProfile/UserProfile';
 import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
 
 function App() {
@@ -34,11 +35,11 @@ function App() {
 				/>
 
 				{/* <Speedometer /> */}
-				<AccelerometerSensor />
+				{/* <AccelerometerSensor /> */}
 
 				{/* <Socket /> */}
 
-				<Location />
+				{/* <Location /> */}
 				<Route
 					path='/map'
 					exact
@@ -70,6 +71,10 @@ function App() {
 				/>
 
 				<Route path='/signup' component={SignUp} />
+
+				{/* <CreateTrip /> */}
+
+				<Route path='/userprofile' component={UserProfile} />
 
 				<Route
 					path='/createtrip'
