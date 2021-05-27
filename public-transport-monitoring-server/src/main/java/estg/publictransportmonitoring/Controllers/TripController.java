@@ -28,22 +28,28 @@ public class TripController {
     private UserService userService;
 
     @GetMapping
-    public Flux<Trip> getAll(){
+    public Flux<Trip> getAll() {
         return this.tripService.getAll();
     }
 
+    public Flux<TripReserve> getAllReservatedTrips() {
+        return this.tripService.getReservatedTrips();
+    }
+
     @GetMapping("{id}")
-    public Mono<EntityModel<Trip>> getById(@PathVariable("id") final String id){
+    public Mono<EntityModel<Trip>> getById(@PathVariable("id") final String id) {
+        System.out.println("get by id");
+        System.out.println(id);
         return this.tripService.getById(id).map(Responses::tripResponse);
     }
 
     @PutMapping("{id}")
-    public Mono<Trip> updateById(@PathVariable("id") final String id, @RequestBody final Trip trip){
+    public Mono<Trip> updateById(@PathVariable("id") final String id, @RequestBody final Trip trip) {
         return this.tripService.update(id, trip);
     }
 
     @PostMapping
-    public Flux<EntityModel<Trip>> saveTrip(@RequestBody final Trip trip){
+    public Flux<EntityModel<Trip>> saveTrip(@RequestBody final Trip trip) {
         Flux<Tuple3<Vehicle, User, Trip>> result = Flux.zip(this.vehicleService.getById(trip.getVehiclePlate()), this.userService.getById(trip.getDriverId()), Mono.just(trip));
 
         return result.doOnNext(t -> t.getT3().setAvailableSeats(t.getT1().getCapacity()))
@@ -52,7 +58,7 @@ public class TripController {
     }
 
     @DeleteMapping("{id}")
-    public Mono<Trip> delete(@PathVariable final String id){
+    public Mono<Trip> delete(@PathVariable final String id) {
         return this.tripService.delete(id);
     }
 
@@ -63,7 +69,7 @@ public class TripController {
         return result
                 .doOnNext(t -> t.getT3().setReservationId(UUID.randomUUID().toString()))
                 .map(s -> {
-                    if(s.getT2().getAvailableSeats() > 0){
+                    if (s.getT2().getAvailableSeats() > 0) {
                         s.getT2().setAvailableSeats(s.getT2().getAvailableSeats() - 1);
                         this.updateById(s.getT2().getId(), s.getT2()).subscribe();
 
@@ -72,10 +78,6 @@ public class TripController {
 
                     return false;
                 })
-                .flatMap(s -> s ? this.saveTripReserve(tripReserve).map(Responses::tripReserveResponse) : Flux.just());
-    }
-
-    private Mono<TripReserve> saveTripReserve(TripReserve tripReserve){
-        return this.tripReserveService.save(tripReserve);
+                .flatMap(s -> s ? this.tripReserveService.save(tripReserve).map(Responses::tripReserveResponse) : Flux.just());
     }
 }

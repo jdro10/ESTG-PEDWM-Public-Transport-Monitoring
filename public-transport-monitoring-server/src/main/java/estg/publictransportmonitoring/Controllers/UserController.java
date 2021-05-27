@@ -1,19 +1,23 @@
 package estg.publictransportmonitoring.Controllers;
 
+import estg.publictransportmonitoring.Entities.TripReserve;
 import estg.publictransportmonitoring.Entities.User;
+import estg.publictransportmonitoring.Services.TripService;
 import estg.publictransportmonitoring.Services.UserService;
 import estg.publictransportmonitoring.models.Role;
-import estg.publictransportmonitoring.utils.Responses;
+import estg.publictransportmonitoring.models.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
+import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RequestMapping("/users")
 @AllArgsConstructor
@@ -22,6 +26,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private TripService tripService;
 
     @GetMapping
     public Flux<User> getAll(){
@@ -56,5 +62,14 @@ public class UserController {
     public Mono<User> delete(@PathVariable final String id){
         System.out.println("delete user by id");
         return userService.delete(id);
+    }
+
+    @GetMapping("/profile/{id}")
+    public Mono<UserProfile> userProfile(@PathVariable("id") final String userId){
+        return this.tripService.getReservatedTrips()
+                        .filter(trip -> trip.getUserId().equals(userId))
+                        .collect(Collectors.toList())
+                        .flatMap(list -> this.userService.getById(userId)
+                                            .map(user -> new UserProfile(user.getUsername(), user.getEmail(), list)));
     }
 }
