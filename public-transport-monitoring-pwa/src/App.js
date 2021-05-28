@@ -17,6 +17,7 @@ import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
 import Socket from './components/Socket/Socket';
 import UserProfile from './components/UserProfile/UserProfile';
 import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
+import DriverPage from './components/Driver/DriverPage';
 
 function App() {
 	return (
@@ -33,6 +34,8 @@ function App() {
 						</div>
 					)}
 				/>
+
+				<Route path='/' exact render={(props) => <div>H!</div>} />
 
 				{/* <Speedometer /> */}
 				{/* <AccelerometerSensor /> */}
