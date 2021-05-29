@@ -16,6 +16,7 @@
 		"imergo-generic-sensor-api": "^0.1.1",
 		"leaflet": "^1.7.1",
 		"motion-sensors-polyfill": "^0.3.1",
+		"mqtt": "^4.2.6",
 		"react": "^17.0.2",
 		"react-accelerometer": "^1.0.1",
 		"react-accelerometer-field": "^1.0.2",
