@@ -25,22 +25,19 @@ const DriverPage = () => {
 	const [client, setClient] = useState(null);
 	const [payload, setPayload] = useState({});
 
-	useEffect(() => {
-		if (client) {
-			client.on('message', (topic, message) => {
-				const payload = { topic, message: message.toString() };
-				setPayload(payload);
-				console.log(payload);
-			});
-		}
-	});
+	const record = {
+		topic: 'testtopic/react23',
+		qos: qosOption[0]
+	};
+
+	
 
 	const outro = -8;
 	const position = 10;
 
 	const mqttConnect = (url, options) => {
 		setClient(mqtt.connect(url, options));
-		console.log('conectado');
+		console.log('conectado ao mqtt');
 	};
 
 	const url = `ws://broker.emqx.io:8083/mqtt`;
@@ -60,37 +57,46 @@ const DriverPage = () => {
 		},
 		rejectUnauthorized: false
 	};
+
 	options.clientId = '123';
 	options.username = '123';
 	options.password = '123';
 
-	const record = {
-		topic: 'testtopic/react23',
-		qos: qosOption[0]
-	};
-
 	const mqttPublish = () => {
 		if (client) {
-			console.log('cliente');
 			client.publish(record.topic, 'ola', 0, (error) => {
 				if (error) {
 					console.log('Publish error: ', error);
 				}
+
+				console.log("publiquei no mqtt")
 			});
 		}
 	};
 
 	const mqttSub = () => {
 		if (client) {
-			console.log('aqui');
 			client.subscribe(record.topic, 0, (error) => {
 				if (error) {
 					console.log('Subscribe to topics error', error);
 					return;
 				}
+
+				console.log("subscrevi o mqtt")
 			});
 		}
 	};
+
+	useEffect(() => {
+		if (client) {
+			console.log("por cima do on message")
+			client.on('message', (topic, message) => {
+				const payloadReceived = { topic, message: message.toString() };
+				setPayload(payloadReceived);
+				console.log(payload);
+			});
+		}
+	});
 
 	return (
 		<div className='flex-container root'>
