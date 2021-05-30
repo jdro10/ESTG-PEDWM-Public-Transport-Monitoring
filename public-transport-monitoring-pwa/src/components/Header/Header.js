@@ -1,5 +1,6 @@
 import React from 'react';
 import './header.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 	return (
@@ -15,7 +16,7 @@ const Header = () => {
 					<a>Como comprar</a>
 				</li>
 				<li>
-					<a style={{ color: '#2ECC71' }}>Conta</a>
+					<Link to="/userprofile" style={{ color: '#2ECC71' }}>Conta</Link>
 				</li>
 			</ul>
 			<section className='container'>

@@ -41,13 +41,22 @@ public class UserController {
         return userService.getById(id);
     }
 
+    public Mono<User> getByUsername(final String username){
+        return this.userService.getByUsername(username);
+    }
+
+    @GetMapping("/getByUsername/{username}")
+    public Mono<User> getUserByUsername(@PathVariable("username") final String username){
+        return this.userService.getByUsername(username);
+    }
+
     @PutMapping("{id}")
     public Mono<User> updateById(@PathVariable("id") final String id, @RequestBody final User user){
         System.out.println("update user By Id");
         return userService.update(id,user);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("/create")
     public Mono<User> save(@RequestBody final User user){
         List<Role> role = new ArrayList<>();
         role.add(Role.USER);

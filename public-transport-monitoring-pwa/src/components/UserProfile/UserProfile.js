@@ -33,15 +33,35 @@ const UserProfile = () => {
     }, [])
 
     const getUserProfileData = async () => {
-        const req = await fetch('http://localhost:8080/users/profile/60aedde349e0a00483100e95')
+        const token = localStorage.getItem('token', token); 
+        const userId = localStorage.getItem('userId', userId);
+        
+        const req = await fetch('http://localhost:8080/users/profile/' + userId, {
+            method: 'GET',
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
 
         const data = await req.json();
 
         return data;
     }
 
-    const fetchTripInfo = async () => {
-        const req = await fetch('http://localhost:8080/trips/60aac58f35a2492458d9e334')
+    const fetchTripInfo = async (tripId) => {
+        console.log("TRIP ID: ", tripId)
+        const token = localStorage.getItem('token', token); 
+
+        const req = await fetch('http://localhost:8080/trips/' + tripId, {
+            method: 'GET',
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
 
         const res = await req.json();
 
@@ -73,7 +93,7 @@ const UserProfile = () => {
                                     <tr>
                                         <th> { trip.date }</th>
                                         <th> { trip.reservationId } </th>
-                                        <th><Button variant="success" onClick={() => { handleShow(); fetchTripInfo(); }}>+</Button></th>
+                                        <th><Button variant="success" onClick={() => { handleShow(); fetchTripInfo(trip.tripId); }}>+</Button></th>
                                     </tr>
                                 ))}
                             </tbody>

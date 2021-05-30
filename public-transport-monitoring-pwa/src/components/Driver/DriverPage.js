@@ -5,92 +5,30 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import mqtt from 'mqtt';
 
 const DriverPage = () => {
-	const qosOption = [
-		{
-			label: '0',
-			value: 0
-		},
-		{
-			label: '1',
-			value: 1
-		},
-		{
-			label: '2',
-			value: 2
-		}
-	];
-
 	const [buttonStart, setButtonStart] = useState(true);
 	const [buttonFinish, setButtonFinish] = useState(true);
-	const [client, setClient] = useState(null);
-	const [payload, setPayload] = useState({});
-
-	useEffect(() => {
-		if (client) {
-			client.on('message', (topic, message) => {
-				const payload = { topic, message: message.toString() };
-				setPayload(payload);
-				console.log(payload);
-			});
-		}
-	});
 
 	const outro = -8;
 	const position = 10;
 
-	const mqttConnect = (url, options) => {
-		setClient(mqtt.connect(url, options));
-		console.log('conectado');
-	};
+	const client = mqtt.connect('ws://broker.emqx.io:8083/mqtt')
+	const topic = "testtopic/estg-pedwm"
 
-	const url = `ws://broker.emqx.io:8083/mqtt`;
+	const connect = () => {
+		client.on('connect', () => {
+			console.log("connected")
+		});
+	}
 
-	const options = {
-		keepalive: 30,
-		protocolId: 'MQTT',
-		protocolVersion: 4,
-		clean: true,
-		reconnectPeriod: 1000,
-		connectTimeout: 30 * 1000,
-		will: {
-			topic: 'WillMsg',
-			payload: 'Connection Closed abnormally..!',
-			qos: 0,
-			retain: false
-		},
-		rejectUnauthorized: false
-	};
-	options.clientId = '123';
-	options.username = '123';
-	options.password = '123';
+	useEffect(() => {
+		connect()
+	}, [])
 
-	const record = {
-		topic: 'testtopic/react23',
-		qos: qosOption[0]
-	};
-
-	const mqttPublish = () => {
-		if (client) {
-			console.log('cliente');
-			client.publish(record.topic, 'ola', 0, (error) => {
-				if (error) {
-					console.log('Publish error: ', error);
-				}
-			});
-		}
-	};
-
-	const mqttSub = () => {
-		if (client) {
-			console.log('aqui');
-			client.subscribe(record.topic, 0, (error) => {
-				if (error) {
-					console.log('Subscribe to topics error', error);
-					return;
-				}
-			});
-		}
-	};
+	const publishDelay = (message) => {
+		client.publish(topic, message, function () {
+			console.log("Message is published");
+		})
+	}
 
 	return (
 		<div className='flex-container root'>
@@ -100,14 +38,12 @@ const DriverPage = () => {
 						<Form.Label>Id Viagem</Form.Label>
 						<Form.Control autoFocus placeholder='exemplo' />
 					</Form.Group>
-
 					<Button
 						variant='primary'
 						block
 						size='lg'
 						onClick={() => {
 							setButtonStart(false);
-							mqttConnect(url, options);
 						}}
 					>
 						{' '}
@@ -122,12 +58,13 @@ const DriverPage = () => {
 						disabled={buttonStart}
 						onClick={() => {
 							setButtonFinish(false);
-							mqttPublish();
 						}}
 					>
 						{' '}
 						Iniciar Viagem{' '}
 					</Button>
+
+
 
 					<Button
 						variant='info'
@@ -135,17 +72,21 @@ const DriverPage = () => {
 						disabled={buttonStart}
 						onClick={() => {
 							setButtonFinish(false);
-							mqttSub();
+							publishDelay('A viagem X encontra-se na paragem X');
 						}}
 					>
 						{' '}
 						Paragem{' '}
 					</Button>
 
+					<Button variant="danger" disabled={buttonStart} onClick={() => { publishDelay('Informamos que a viagem X encontra-se atrasada X minutos') }}>Alertar atraso</Button>
+
 					<Button variant='danger' size='lg' disabled={buttonFinish}>
 						{' '}
 						Terminar Viagem{' '}
 					</Button>
+
+
 				</div>
 			</div>
 

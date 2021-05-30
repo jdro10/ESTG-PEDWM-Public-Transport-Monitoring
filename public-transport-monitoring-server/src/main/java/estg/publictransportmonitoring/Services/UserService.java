@@ -40,6 +40,10 @@ public class UserService {
         return this.userRepository.existsById(id);
     }
 
+    public Mono<User> getByUsername(String username){
+        return this.userRepository.getByUsername(username);
+    }
+
     public Mono<User> save(final User user) {
         return this.userRepository.existsByUsername(user.getUsername())
                 .doOnNext(usernameExists -> {

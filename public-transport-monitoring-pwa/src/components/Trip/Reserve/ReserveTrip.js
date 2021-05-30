@@ -10,11 +10,27 @@ const ReserveTrip = ({ origin, destination, date }) => {
     const [show, setShow] = useState(false);
     const [tripInfo, setTripInfo] = useState({
         path: [],
-        hours: []
+        hours: [],
+        id: ''
     });
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true);
+
+    const reserveTrip = async (tripId) => {
+        const userId = localStorage.getItem('userId', userId);
+        const token = localStorage.getItem('token', token); 
+
+        const req = await fetch('http://localhost:8080/trips/reserve', {
+            method: 'POST',
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({userId: userId, tripId: tripId})
+        })
+    }
 
     const location = useLocation();
     const trips = location.state.trips;
@@ -61,7 +77,7 @@ const ReserveTrip = ({ origin, destination, date }) => {
                                             <td>{trip.hours[trip.hours.length - 1]}</td>
                                             <td>{trip.price} €</td>
                                             <td>{trip.date}</td>
-                                            <td><Button variant="success" onClick={() => { handleShow(); setTripInfo({ path: trip.path, hours: trip.hours }); }} >+</Button></td>
+                                            <td><Button variant="success" onClick={() => { handleShow(); setTripInfo({ path: trip.path, hours: trip.hours, id: trip.id }); }} >+</Button></td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -100,7 +116,7 @@ const ReserveTrip = ({ origin, destination, date }) => {
 
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => { handleClose(); }}>Fechar</Button>
-                        <Button variant="success" onClick={handleClose}>Reservar</Button>
+                        <Button variant="success" onClick={() => { reserveTrip(tripInfo.id); alert("Reserva efetuada com sucesso") }}>Reservar</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
             </Modal>

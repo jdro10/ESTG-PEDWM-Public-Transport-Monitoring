@@ -23,7 +23,16 @@ const SearchTrip = () => {
 	}, [])
 
     const getAllTrips = async() => {
-        const req = await fetch('http://localhost:8080/trips')
+        const getToken = localStorage.getItem('token', getToken);
+
+        const req = await fetch('http://localhost:8080/trips', {
+			method: 'GET',
+			withCredentials: true,
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + getToken
+			}
+		});
 
         const data = await req.json()
 
