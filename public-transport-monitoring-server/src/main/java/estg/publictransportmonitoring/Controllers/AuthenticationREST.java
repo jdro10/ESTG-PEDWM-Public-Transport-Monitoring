@@ -29,7 +29,7 @@ public class AuthenticationREST {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest ar) {
-        return userService.getById(ar.getUsername()).map((userDetails) -> {
+        return userService.getByUsername(ar.getUsername()).map((userDetails) -> {
             if (passwordEncoder.encode(ar.getPassword()).equals(userDetails.getPassword())) {
                 System.out.println("toma o token ");
                 return ResponseEntity.ok(new AuthResponse(jwtUtil.generateToken(userDetails)));

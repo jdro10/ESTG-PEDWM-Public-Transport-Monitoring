@@ -44,10 +44,9 @@ public class WebSecurityConfig {
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers("/login").permitAll()
-                .pathMatchers("/users/profile").permitAll()
                 .pathMatchers("/*/*/*").permitAll()
                 .pathMatchers("/*/*").permitAll()
-                .pathMatchers("/*").permitAll() //PERMITIR TODAS AS ROTAS PARA TESTE
+                .pathMatchers("/*").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }

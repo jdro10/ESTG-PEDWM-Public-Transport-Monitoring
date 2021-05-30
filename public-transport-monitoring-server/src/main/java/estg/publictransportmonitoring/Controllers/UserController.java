@@ -41,6 +41,11 @@ public class UserController {
         return userService.getById(id);
     }
 
+    public Mono<User> getByUsername(final String username){
+        return this.userService.getByUsername(username);
+
+    }
+
     @PutMapping("{id}")
     public Mono<User> updateById(@PathVariable("id") final String id, @RequestBody final User user){
         System.out.println("update user By Id");

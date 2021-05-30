@@ -33,7 +33,21 @@ const UserProfile = () => {
     }, [])
 
     const getUserProfileData = async () => {
-        const req = await fetch('http://localhost:8080/users/profile/60aedde349e0a00483100e95')
+        const token = localStorage.getItem('token', token); 
+        
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Bearer ' + token);
+
+
+        const req = await fetch('http://localhost:8080/users/profile/60aedde349e0a00483100e95');
+
+        /*{
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'include',
+            headers: headers
+        }*/
 
         const data = await req.json();
 
