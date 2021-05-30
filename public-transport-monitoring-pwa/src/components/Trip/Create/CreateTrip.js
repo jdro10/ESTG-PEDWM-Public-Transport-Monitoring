@@ -15,10 +15,13 @@ const CreateTrip = () => {
 	];
 
 	const createTrip = async () => {
+		const getToken = localStorage.getItem('token', getToken);
+
 		const req = await fetch('http://localhost:8080/trips', {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json'
+				'Content-type': 'application/json',
+				'Authorization': 'Bearer ' + getToken
 			},
 			body: JSON.stringify({
 				hours: timeOptionsChoose,

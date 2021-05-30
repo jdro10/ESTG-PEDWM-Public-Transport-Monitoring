@@ -56,7 +56,7 @@ public class UserController {
         return userService.update(id,user);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("/create")
     public Mono<User> save(@RequestBody final User user){
         List<Role> role = new ArrayList<>();
         role.add(Role.USER);

@@ -9,7 +9,7 @@ const SignUp = () => {
 	const [password, setPassword] = useState('');
 
 	const signUp = async (username, email, password) => {
-		const req = await fetch('http://localhost:8080/users', {
+		const req = await fetch('http://localhost:8080/users/create', {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json'
