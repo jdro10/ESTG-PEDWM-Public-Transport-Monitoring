@@ -9,6 +9,7 @@ const Login = () => {
 	const [jwt, setJwt] = useState(storedJwt || null);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [userId, setUserId] = useState('')
 
 	const getJwt = async (username, password) => {
 		const res = await fetch('http://localhost:8080/login', {
@@ -24,7 +25,25 @@ const Login = () => {
 		localStorage.setItem('token', test.token);
 
 		setJwt(test.token);
+
+		const getToken = localStorage.getItem('token', getToken); 
+
+		const reqUser = await fetch('http://localhost:8080/users/getByUsername/' + username, {
+				method: 'GET',
+				withCredentials: true,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + getToken
+				}
+		});		
+
+		const resUser = await reqUser.json();
+
+		console.log(resUser)
+
+		localStorage.setItem('userId', resUser.id)
 	};
+
 
 	return (
 		<div id='loginDiv' className='Login'>

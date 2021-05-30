@@ -43,7 +43,11 @@ public class UserController {
 
     public Mono<User> getByUsername(final String username){
         return this.userService.getByUsername(username);
+    }
 
+    @GetMapping("/getByUsername/{username}")
+    public Mono<User> getUserByUsername(@PathVariable("username") final String username){
+        return this.userService.getByUsername(username);
     }
 
     @PutMapping("{id}")
