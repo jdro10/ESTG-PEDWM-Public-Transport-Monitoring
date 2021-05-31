@@ -7,17 +7,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @Document
 @Getter
 @Setter
-public class TripReserve {
+@ToString
+@NoArgsConstructor
+public class VehicleData {
 
     @Id
-    private String reservationId;
-    private String userId;
-    private String tripId;
-    private String date;
-    private String plate;
+    private String vehicleId;
+    private int numberOfTrips;
 
 }

@@ -45,6 +45,7 @@ public class WebSecurityConfig {
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers("/login").permitAll()
                 .pathMatchers("/users/create").permitAll()
+                .pathMatchers("/velocity").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }

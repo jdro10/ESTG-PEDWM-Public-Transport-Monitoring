@@ -72,6 +72,7 @@ public class TripController {
                     if (s.getT2().getAvailableSeats() > 0) {
                         s.getT2().setAvailableSeats(s.getT2().getAvailableSeats() - 1);
                         s.getT3().setDate(s.getT2().getDate());
+                        s.getT3().setPlate(s.getT2().getVehiclePlate());
                         this.updateById(s.getT2().getId(), s.getT2()).subscribe();
 
                         return true;
