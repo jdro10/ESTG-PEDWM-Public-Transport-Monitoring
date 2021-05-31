@@ -31,27 +31,29 @@ const Map = () => {
 	}
 
 	return (
-		<Container>
 			<div id='mapid'>
-				<Form>
-					<Form.Group id='input' size='lg' controlId='email'>
-						<Form.Label>Username</Form.Label>
-						<Form.Control
-							autoFocus
-							placeholder='exemplo'
-							value={topicTripId}
-							onChange={(e) => setTopicTripId(e.currentTarget.value)}
-						/>
-					</Form.Group>
-					<Button
-						onClick={() => { connectToSSE(topicTripId); }}
-						variant='success'
-						block
-						size='lg'
-					>
-						Procurar
-					</Button>
-				</Form>
+				<Container>
+					<Form>
+						<Form.Group id='input' size='lg' controlId='email'>
+							<Form.Label>Introduza o ID da viagem</Form.Label>
+							<Form.Control
+								autoFocus
+								placeholder='698123akm12n9'
+								value={topicTripId}
+								onChange={(e) => setTopicTripId(e.currentTarget.value)}
+							/>
+						</Form.Group>
+						<Button
+							onClick={() => { connectToSSE(topicTripId); }}
+							variant='success'
+							block
+							size='lg'
+						>
+							Procurar
+						</Button>
+					</Form>
+				</Container>
+				<br></br>
 				<MapContainer
 					center={[outro, position]}
 					zoom={13}
@@ -68,7 +70,6 @@ const Map = () => {
 					</Marker>
 				</MapContainer>
 			</div>
-		</Container>
 	);
 };
 
