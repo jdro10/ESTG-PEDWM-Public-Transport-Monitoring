@@ -42,8 +42,10 @@ const SearchTrip = () => {
     return (
         <div className='Login'>
             <Container>
-                <Link to="/map"><Button>Mapa</Button></Link>
+                <Link to="/map"><Button variant="danger">Acompanhe a sua viagem em tempo real!</Button></Link>
             </Container>
+            <br></br>
+            <br></br>
             <Form>
                 <h2>Horários e preços</h2>
                 <InputGroup className="mb-3">
@@ -91,7 +93,7 @@ const SearchTrip = () => {
                         onChange={(e) => setDate(e.currentTarget.value)}
                     />
                 </InputGroup>
-                <Button variant="success"><Link to={{ pathname: "/reserve", state: { trips:  allTrips, origin: origin, destination: destination, date: date} } }>Pesquisar</Link></Button>
+                <Link to={{ pathname: "/reserve", state: { trips:  allTrips, origin: origin, destination: destination, date: date} } }><Button variant="success">Pesquisar</Button></Link>
             </Form>
         </div>
     )
