@@ -12,7 +12,8 @@ const Map = () => {
 
 	useEffect(() => {
 		if (!listening) {
-			eventSource = new EventSource('http://localhost:8080/position');
+			eventSource = new EventSource('http://localhost:8080/position/1/12345spring');
+
 			eventSource.onmessage = (event) => {
 				setPosition(event.data);
 				console.log(event);
@@ -31,7 +32,7 @@ const Map = () => {
 
 	return (
 		<div id='mapid'>
-			<h2>{position}</h2>
+			<label>Id da viagem: </label><input></input>
 			<MapContainer
 				center={[outro, position]}
 				zoom={13}
