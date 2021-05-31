@@ -1,11 +1,13 @@
 package estg.publictransportmonitoring.Services;
 
+import estg.publictransportmonitoring.Entities.EmployeeData;
 import estg.publictransportmonitoring.Entities.MethodMetrics;
 import estg.publictransportmonitoring.Repositories.MethodMetricsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -19,4 +21,9 @@ public class MethodMetricsService {
     public Mono<MethodMetrics> save(final MethodMetrics methodMetrics) {
         return this.methodMetricsRepository.save(methodMetrics);
     }
+
+    public Flux<MethodMetrics> getAll(){
+        return this.methodMetricsRepository.findAll().switchIfEmpty(Flux.empty());
+    }
+
 }

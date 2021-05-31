@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactSpeedometer from 'react-d3-speedometer';
+import './Speedometer.css';
 
 const Speedometer = () => {
 	const [velocity, setVelocity] = useState(0);
@@ -34,7 +35,7 @@ const Speedometer = () => {
 				valueFormat={'d'}
 				customSegmentStops={[0, 40, 80, 120, 160]}
 				segmentColors={['#a3be8c', '#ebcb8b', '#d08770', '#bf616a']}
-				currentValueText={'Velocity: ${value}'}
+				currentValueText={'Velocity: ${value} KM/h'}
 				textColor={'black'}
 			/>
 		</div>

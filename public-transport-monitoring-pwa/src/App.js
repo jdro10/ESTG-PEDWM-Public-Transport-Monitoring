@@ -16,7 +16,8 @@ import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
 import Socket from './components/Socket/Socket';
 import UserProfile from './components/UserProfile/UserProfile';
 import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
-import UserNotification from './components/Notification/UserNotification'
+import UserNotification from './components/Notification/UserNotification';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
 function App() {
 	return (
@@ -51,6 +52,8 @@ function App() {
 						</div>
 					)}
 				/>
+
+				<AdminDashboard />
 
 				<Route
 					path='/reserve'
@@ -97,7 +100,7 @@ function App() {
 						</div>
 					)}
 				/>
-				{ /*<UserNotification/> */}
+				{/*<UserNotification/> */}
 				<Footer />
 			</div>
 		</Router>
