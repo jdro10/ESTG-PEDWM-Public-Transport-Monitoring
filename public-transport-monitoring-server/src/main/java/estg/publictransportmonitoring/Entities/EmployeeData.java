@@ -4,20 +4,21 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
+
+
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @Document
 @Getter
 @Setter
-public class TripReserve {
+@ToString
+@NoArgsConstructor
+public class EmployeeData {
 
     @Id
-    private String reservationId;
-    private String userId;
-    private String tripId;
-    private String date;
-    private String plate;
+    private String employeeId;
+    private int numberOfTrips;
 
 }

@@ -23,6 +23,7 @@ public class Responses {
         EntityModel<TripReserve> model = EntityModel.of(tripReserve);
         model.add(linkTo(methodOn(UserController.class).getById(tripReserve.getUserId())).withRel("User"));
         model.add(linkTo(methodOn(VehicleController.class).getById(tripReserve.getTripId())).withRel("Trip"));
+        model.add(linkTo(methodOn(VehicleController.class).getById(tripReserve.getPlate())).withRel("Vehicle"));
 
         return model;
     }
