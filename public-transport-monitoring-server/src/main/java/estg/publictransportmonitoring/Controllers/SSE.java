@@ -29,8 +29,8 @@ public class SSE {
                 .map(it -> random.nextInt(161));
     }
 
-    @GetMapping(path = "/position/{id}/{topic}", produces = "text/event-stream")
-    public Flux<Object> getCurrentPosition(@PathVariable("id") String id, @PathVariable("topic") String topicName) {
+    @GetMapping(path = "/position/{topic}", produces = "text/event-stream")
+    public Flux<Object> getCurrentPosition(@PathVariable("topic") String topicName) {
         System.out.println("Connected to topic: " + topicName);
 
         return Flux.interval(Duration.ofSeconds(2))
