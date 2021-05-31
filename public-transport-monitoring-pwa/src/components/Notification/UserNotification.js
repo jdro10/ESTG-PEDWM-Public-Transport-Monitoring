@@ -26,7 +26,7 @@ const UserNotification = () => {
 	})
 
 	const showNotification = (message) => {
-		return new Notification(message);
+		return 
 	}
 
 	return (

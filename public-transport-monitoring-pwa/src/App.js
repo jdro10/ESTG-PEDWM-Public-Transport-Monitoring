@@ -97,7 +97,7 @@ function App() {
 						</div>
 					)}
 				/>
-				<UserNotification/>
+				{ /*<UserNotification/> */}
 				<Footer />
 			</div>
 		</Router>

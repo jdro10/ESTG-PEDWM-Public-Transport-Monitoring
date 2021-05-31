@@ -7,22 +7,25 @@ import mqtt from 'mqtt';
 const DriverPage = () => {
 	const [buttonStart, setButtonStart] = useState(true);
 	const [buttonFinish, setButtonFinish] = useState(true);
+	const [tripId, setTripId] = useState('')
+	const [topic, setTopic] = useState('')
 
 	const outro = -8;
 	const position = 10;
 
 	const client = mqtt.connect('ws://broker.emqx.io:8083/mqtt')
-	const topic = "testtopic/estg-pedwm"
 
-	const connect = () => {
-		client.on('connect', () => {
-			console.log("connected")
-		});
+	const connectToMQTT = () => {
+		setTopic("testtopic/" + tripId)
+
+		const connect = () => {
+			client.on('connect', () => {
+				console.log("connected")
+			});
+		}
+
+		connect();
 	}
-
-	useEffect(() => {
-		connect()
-	}, [])
 
 	const publishDelay = (message) => {
 		client.publish(topic, message, function () {
@@ -34,16 +37,24 @@ const DriverPage = () => {
 		<div className='flex-container root'>
 			<div className='form-container'>
 				<Form>
-					<Form.Group id='input' size='lg' controlId='email'>
+					<Form.Group id='input' size='lg'>
 						<Form.Label>Id Viagem</Form.Label>
-						<Form.Control autoFocus placeholder='exemplo' />
+						<Form.Control
+							type="text"
+							value={tripId}
+							onChange={(e) => setTripId(e.currentTarget.value)}
+							autoFocus
+							placeholder='id12931283b59230'
+						/>
 					</Form.Group>
 					<Button
 						variant='primary'
 						block
 						size='lg'
+
 						onClick={() => {
 							setButtonStart(false);
+							connectToMQTT();
 						}}
 					>
 						{' '}
@@ -72,14 +83,14 @@ const DriverPage = () => {
 						disabled={buttonStart}
 						onClick={() => {
 							setButtonFinish(false);
-							publishDelay('A viagem X encontra-se na paragem X');
+							publishDelay(`A viagem ${tripId} encontra-se nas coordenadas: X e Y`);
 						}}
 					>
 						{' '}
 						Paragem{' '}
 					</Button>
 
-					<Button variant="danger" disabled={buttonStart} onClick={() => { publishDelay('Informamos que a viagem X encontra-se atrasada X minutos') }}>Alertar atraso</Button>
+					<Button variant="danger" disabled={buttonStart} onClick={() => { publishDelay(`Informamos que a viagem ${tripId} encontra-se atrasada 5 minutos`) }}>Alertar atraso</Button>
 
 					<Button variant='danger' size='lg' disabled={buttonFinish}>
 						{' '}
