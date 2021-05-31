@@ -18,5 +18,6 @@ public class TripReserve {
     private String userId;
     private String tripId;
     private String date;
+    private String plate;
 
 }

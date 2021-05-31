@@ -4,11 +4,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import Main from './controllers/Main';
+// import Main from './controllers/Main';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Main />
+		<App />
 	</React.StrictMode>,
 	document.getElementById('root')
 );
