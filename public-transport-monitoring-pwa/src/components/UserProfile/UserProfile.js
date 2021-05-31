@@ -33,6 +33,8 @@ const UserProfile = () => {
         }
 
         getData();
+        connect();
+        sub();
 
     }, [])
 
@@ -73,17 +75,27 @@ const UserProfile = () => {
         return res;
     }
 
-    const setTopicName = (tripName) => {
-        const client = mqtt.connect('ws://broker.emqx.io:8083/mqtt')
-        const topicSub = "testtopic/" + tripName
+    const client = mqtt.connect('ws://broker.emqx.io:8083/mqtt')
 
-        const connect = () => {
-            client.on('connect', () => {
-                console.log('connected to topic: ' + topicSub);
-            });
+    const connect = () => {
+        client.on('connect', () => {
+            console.log('connected to topic: ' + localStorage.getItem('tripId'));
+        });
+    }
+
+    const setTopicName = (tripName) => {
+
+        if(localStorage.getItem('tripId') === null){
+            localStorage.setItem('tripId', tripName);
         }
 
-        connect();
+        
+
+        
+    }
+
+    const sub = () => {
+        const topicSub = "testtopic/" + localStorage.getItem('tripId')
 
         client.subscribe(topicSub, () => {
             console.log("subscribed")
@@ -91,11 +103,7 @@ const UserProfile = () => {
                 new Notification(message);
             })
         })
-    }
-
-    const saveNotificationsTripIdLocalStorage = (tripName) => {
-        
-    }
+    } 
 
     return (
         <Container>
