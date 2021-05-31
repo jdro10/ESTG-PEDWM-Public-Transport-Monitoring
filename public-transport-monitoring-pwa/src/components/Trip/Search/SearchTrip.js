@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import { InputGroup } from 'react-bootstrap';
+import { Container, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -41,6 +41,9 @@ const SearchTrip = () => {
 
     return (
         <div className='Login'>
+            <Container>
+                <Link to="/map"><Button>Mapa</Button></Link>
+            </Container>
             <Form>
                 <h2>Horários e preços</h2>
                 <InputGroup className="mb-3">
