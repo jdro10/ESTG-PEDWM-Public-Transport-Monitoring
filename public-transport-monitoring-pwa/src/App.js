@@ -23,87 +23,76 @@ function App() {
 	return (
 		<Router>
 			<div>
-				<Header />
-
 				<Route
 					path='/'
 					exact
 					render={(props) => (
 						<div>
+							<Header />
 							<Login />
+							<Footer />
 						</div>
 					)}
 				/>
-
-				<Route path='/' exact render={(props) => <div></div>} />
-
-				{/* <Speedometer /> */}
-				{/* <AccelerometerSensor /> */}
-
-				{/*<Socket /> */}
-
-
-				<Route path="/driver" component={DriverPage}/>
-
+				<Route path='/driver' component={DriverPage} />
 				<Route
 					path='/map'
 					exact
 					render={() => (
 						<div>
+							<Header />
 							<Map />
+							<Footer />
 						</div>
 					)}
 				/>
-
-				{/* <AdminDashboard /> */}
-
+				<Route path='/admin' component={AdminDashboard} />
 				<Route
 					path='/reserve'
 					exact
 					render={(props) => (
 						<div>
+							<Header />
 							<ReserveTrip />
+							<Footer />
 						</div>
 					)}
 				/>
-
 				<Route
 					path='/searchtrip'
 					exact
 					render={(props) => (
 						<div>
+							<Header />
 							<SearchTrip />
+							<Footer />
 						</div>
 					)}
 				/>
-
-				<Route path='/signup' component={SignUp} />
-
-				{/* <CreateTrip /> */}
-
-				<Route path='/userprofile' component={UserProfile} />
-
 				<Route
-					path='/createtrip'
+					path='/signup'
 					exact
 					render={(props) => (
 						<div>
-							<CreateTrip />
+							<Header />
+							<SignUp />
+							<Footer />
 						</div>
 					)}
 				/>
-
 				<Route
-					path='/createvehicle'
+					path='/userprofile'
 					exact
 					render={(props) => (
 						<div>
-							<CreateVehicle />
+							<Header />
+							<UserProfile />
+							<Footer />
 						</div>
 					)}
 				/>
-				{/*<UserNotification/> */}
-				<Footer />
+				<Route path='/createtrip' component={CreateTrip} />
+				<Route path='/createvehicle' component={CreateVehicle} />
 			</div>
 		</Router>
 	);

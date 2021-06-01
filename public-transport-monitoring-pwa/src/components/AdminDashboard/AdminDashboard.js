@@ -5,12 +5,18 @@ import Speedometer from '../Speedometer/Speedometer';
 import DriversData from './DriversData';
 import MethodLogs from './MethodLogs';
 import VehiclesData from './VehiclesData';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
-
-
 	return (
 		<div>
+			<Link to='/createvehicle'>
+				<Button variant='outline-secondary'>Adicionar veículo</Button>
+			</Link>
+			<Link to='/createtrip'>
+				<Button variant='outline-secondary'>Adicionar viagem</Button>
+			</Link>
 			<CardDeck>
 				<Card>
 					<Card.Body>
@@ -39,7 +45,6 @@ const AdminDashboard = () => {
 					</Card.Footer>
 				</Card>
 			</CardDeck>
-
 			<CardDeck>
 				<Card>
 					<Card.Body>
