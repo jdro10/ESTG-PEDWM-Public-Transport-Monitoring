@@ -11,13 +11,13 @@ import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
 import Speedometer from './components/Speedometer/Speedometer';
 import Map from './components/Map/Map';
-import Location from './components/Sensors/Location';
 import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
 import Socket from './components/Socket/Socket';
 import UserProfile from './components/UserProfile/UserProfile';
 import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
 import UserNotification from './components/Notification/UserNotification';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+import DriverPage from './components/Driver/DriverPage';
 
 function App() {
 	return (
@@ -42,7 +42,9 @@ function App() {
 
 				{/*<Socket /> */}
 
-				{/* <Location /> */}
+
+				<Route path="/driver" component={DriverPage}/>
+
 				<Route
 					path='/map'
 					exact
@@ -53,7 +55,7 @@ function App() {
 					)}
 				/>
 
-				<AdminDashboard />
+				{/* <AdminDashboard /> */}
 
 				<Route
 					path='/reserve'

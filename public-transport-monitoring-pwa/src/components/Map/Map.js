@@ -6,8 +6,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 const Map = () => {
-	const [position, setPosition] = useState(41.8);
-	const [topicTripId, setTopicTripId] = useState('')
+	const [latitude, setLatitude] = useState(0.0);
+	const [longitude, setLongitude] = useState(0.0);
+	const [topicTripId, setTopicTripId] = useState('');
 
 	const outro = -8;
 
@@ -16,11 +17,15 @@ const Map = () => {
 
 	const connectToSSE = (topicNameInput) => {
 		if (!listening) {
+			console.log("conectado ao topico " + topicNameInput)
 			eventSource = new EventSource('http://localhost:8080/position/' + topicNameInput);
 
 			eventSource.onmessage = (event) => {
-				setPosition(event.data);
-				console.log(event);
+				// setLatitude(event.data[0]);
+				// setLongitude(event.data[1]);
+				var coords = event.data.split(",")
+				setLatitude(coords[0].substring(1))
+				setLongitude(coords[1].substring(0, coords[1].length - 1))
 			};
 			eventSource.onerror = (err) => {
 				console.error('EventSource failed:', err);
@@ -55,7 +60,7 @@ const Map = () => {
 				</Container>
 				<br></br>
 				<MapContainer
-					center={[outro, position]}
+					center={[latitude, longitude]}
 					zoom={13}
 					scrollWheelZoom={true}
 				>
@@ -63,7 +68,7 @@ const Map = () => {
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 					/>
-					<Marker position={[position, outro]}>
+					<Marker position={[latitude, longitude]}>
 						<Popup>
 							A pretty CSS3 popup. <br /> Easily customizable.
 						</Popup>

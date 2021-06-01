@@ -95,7 +95,7 @@ const UserProfile = () => {
     }
 
     const sub = () => {
-        const topicSub = "testtopic/" + localStorage.getItem('tripId')
+        const topicSub = "pedwmptm/" + localStorage.getItem('tripId')
 
         client.subscribe(topicSub, () => {
             console.log("subscribed")

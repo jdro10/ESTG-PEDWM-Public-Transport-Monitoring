@@ -9,6 +9,9 @@ const DriverPage = () => {
 	const [buttonFinish, setButtonFinish] = useState(true);
 	const [tripId, setTripId] = useState('')
 	const [topic, setTopic] = useState('')
+	const [topicLocation, setTopicLocation] = useState('')
+	const [latitude, setLatitude] = useState('');
+	const [longitude, setLongitude] = useState('');
 
 	const outro = -8;
 	const position = 10;
@@ -16,11 +19,23 @@ const DriverPage = () => {
 	const client = mqtt.connect('ws://broker.emqx.io:8083/mqtt')
 
 	const connectToMQTT = () => {
-		setTopic("testtopic/" + tripId)
+		setTopic("pedwmptm/" + tripId)
 
 		const connect = () => {
 			client.on('connect', () => {
 				console.log("connected")
+			});
+		}
+
+		connect();
+	}
+
+	const connectToMQTTLocation = () => {
+		setTopicLocation("pedwmptm/location/" + tripId)
+
+		const connect = () => {
+			client.on('connect', () => {
+				console.log("connected to mqtt location")
 			});
 		}
 
@@ -33,12 +48,26 @@ const DriverPage = () => {
 		})
 	}
 
+	const location = navigator.geolocation.getCurrentPosition((position) => {
+		setLatitude(position.coords.latitude);
+		setLongitude(position.coords.longitude);
+	});
+
+	const publishLocation = (message) => {
+		client.publish(topicLocation, message, function () {
+			console.log("Message location published");
+		})
+	}
+
 	return (
 		<div className='flex-container root'>
 			<div className='form-container'>
+			<h3>Localização atual: </h3>
+			<p>Latitude: {latitude}</p>
+			<p>Longitude: {longitude}</p>
 				<Form>
 					<Form.Group id='input' size='lg'>
-						<Form.Label>Id Viagem</Form.Label>
+						<Form.Label>ID Viagem</Form.Label>
 						<Form.Control
 							type="text"
 							value={tripId}
@@ -55,6 +84,7 @@ const DriverPage = () => {
 						onClick={() => {
 							setButtonStart(false);
 							connectToMQTT();
+							connectToMQTTLocation();
 						}}
 					>
 						{' '}
@@ -83,14 +113,13 @@ const DriverPage = () => {
 						disabled={buttonStart}
 						onClick={() => {
 							setButtonFinish(false);
-							publishDelay(`A viagem ${tripId} encontra-se nas coordenadas: X e Y`);
+							publishDelay(`A viagem ${tripId} encontra-se nas coordenadas: ${latitude} e ${longitude}`);
+							publishLocation(latitude + "|" + longitude)
 						}}
 					>
 						{' '}
 						Paragem{' '}
 					</Button>
-
-					<Button variant="danger" disabled={buttonStart} onClick={() => { publishDelay(`Informamos que a viagem ${tripId} encontra-se atrasada 5 minutos`) }}>Alertar atraso</Button>
 
 					<Button variant='danger' size='lg' disabled={buttonFinish}>
 						{' '}
@@ -103,17 +132,17 @@ const DriverPage = () => {
 
 			<div id='mapid'>
 				<MapContainer
-					center={[outro, position]}
-					zoom={13}
-					scrollWheelZoom={true}
+					center={[latitude, longitude]}
+					zoom={8}
+					
 				>
 					<TileLayer
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 					/>
-					<Marker position={[position, outro]}>
+					<Marker position={[latitude, longitude]}>
 						<Popup>
-							A pretty CSS3 popup. <br /> Easily customizable.
+							Longitude: {longitude} <br /> Latitude: {latitude}.
 						</Popup>
 					</Marker>
 				</MapContainer>
