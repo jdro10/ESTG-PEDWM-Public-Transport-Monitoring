@@ -2,12 +2,14 @@ package estg.publictransportmonitoring.Services;
 
 import estg.publictransportmonitoring.Entities.EmployeeData;
 import estg.publictransportmonitoring.Entities.MethodMetrics;
+import estg.publictransportmonitoring.Entities.Trip;
 import estg.publictransportmonitoring.Entities.User;
 import estg.publictransportmonitoring.Repositories.EmployeeDataRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -24,6 +26,10 @@ public class EmployeeDataService {
 
     public Mono<EmployeeData> getById(final String id){
         return this.employeeDataRepository.findById(id);
+    }
+
+    public Flux<EmployeeData> getAll(){
+        return this.employeeDataRepository.findAll().switchIfEmpty(Flux.empty());
     }
 
 

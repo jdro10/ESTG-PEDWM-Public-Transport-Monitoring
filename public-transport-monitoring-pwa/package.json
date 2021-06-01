@@ -5,6 +5,7 @@
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.35",
 		"@fortawesome/free-solid-svg-icons": "^5.15.3",
+		"@shopify/react-web-worker": "^2.0.0",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",
@@ -12,6 +13,7 @@
 		"axios": "^0.21.1",
 		"bootstrap": "^4.6.0",
 		"bootstrap-icons": "^1.5.0",
+		"chart.js": "^3.3.2",
 		"font-awesome": "^4.7.0",
 		"imergo-generic-sensor-api": "^0.1.1",
 		"leaflet": "^1.7.1",
@@ -21,6 +23,7 @@
 		"react-accelerometer": "^1.0.1",
 		"react-accelerometer-field": "^1.0.2",
 		"react-bootstrap": "^1.6.0",
+		"react-chartjs-2": "^3.0.3",
 		"react-d3-speedometer": "^1.0.1",
 		"react-dom": "^17.0.2",
 		"react-leaflet": "^3.2.0",
