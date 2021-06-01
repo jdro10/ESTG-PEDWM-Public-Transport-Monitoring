@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
+import java.sql.Array;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class SSE {
 
-    private float lastPosition = 0.0f;
+    private float lastLatitude = 0.0f;
+    private float lastLongitude = 0.0f;
 
     @GetMapping(value = "/velocity", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Integer> getResourceUsage() {
@@ -31,7 +33,8 @@ public class SSE {
 
     @GetMapping(path = "/position/{topic}", produces = "text/event-stream")
     public Flux<Object> getCurrentPosition(@PathVariable("topic") String topicName) {
-        System.out.println("Connected to topic: " + topicName);
+        System.out.println("Connected to topic: pedwmptm/location/" + topicName);
+        String topicToSubscribe = "pedwmptm/location/" + topicName;
 
         return Flux.interval(Duration.ofSeconds(2))
                 .map(coordinates -> {
@@ -39,13 +42,17 @@ public class SSE {
 
                     try {
                         CountDownLatch countDownLatch = new CountDownLatch(10);
-                        MqttConfig.getInstance().subscribeWithResponse(topicName, (s, mqttMessage) -> {
+                        MqttConfig.getInstance().subscribeWithResponse(topicToSubscribe, (s, mqttMessage) -> {
                             String message = new String(mqttMessage.getPayload());
-                            messages.add(Float.parseFloat(message));
+                            String[] coords = message.split("\\|");
+
+                            messages.add(Float.parseFloat(coords[0]));
+                            messages.add(Float.parseFloat(coords[1]));
                             countDownLatch.countDown();
 
                             if (messages.size() != 0) {
-                                this.lastPosition = messages.get(0);
+                                this.lastLongitude = messages.get(0);
+                                this.lastLatitude = messages.get(1);
                             }
                         });
 
@@ -55,10 +62,14 @@ public class SSE {
                     }
 
                     if (messages.size() == 0) {
-                        return this.lastPosition;
+                        List<Float> floatList = new ArrayList<>();
+                        floatList.add(this.lastLongitude);
+                        floatList.add( this.lastLatitude);
+
+                        return floatList;
                     }
 
-                    return messages.get(0);
+                    return messages;
                 });
     }
 }
