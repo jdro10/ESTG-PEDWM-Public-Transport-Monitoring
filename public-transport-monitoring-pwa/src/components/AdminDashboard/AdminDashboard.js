@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CardDeck, Card, Container } from 'react-bootstrap';
 import { Bar } from 'react-chartjs-2';
 import Speedometer from '../Speedometer/Speedometer';
@@ -7,6 +7,8 @@ import MethodLogs from './MethodLogs';
 import VehiclesData from './VehiclesData';
 
 const AdminDashboard = () => {
+
+
 	return (
 		<div>
 			<CardDeck>
@@ -36,7 +38,6 @@ const AdminDashboard = () => {
 						</small>
 					</Card.Footer>
 				</Card>
-
 			</CardDeck>
 
 			<CardDeck>
