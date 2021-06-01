@@ -8,13 +8,43 @@ import VehiclesData from './VehiclesData';
 
 const AdminDashboard = () => {
 	return (
-		<Container>
+		<div>
 			<CardDeck>
 				<Card>
 					<Card.Body>
 						<Card.Title>Card title</Card.Title>
 						<Card.Text>
 							<DriversData />
+						</Card.Text>
+					</Card.Body>
+					<Card.Footer>
+						<small className='text-muted'>
+							Last updated 3 mins ago
+						</small>
+					</Card.Footer>
+				</Card>
+				<Card>
+					<Card.Body>
+						<Card.Title>Veículos mais requisitados</Card.Title>
+						<Card.Text>
+							<VehiclesData />
+						</Card.Text>
+					</Card.Body>
+					<Card.Footer>
+						<small className='text-muted'>
+							Last updated 3 mins ago
+						</small>
+					</Card.Footer>
+				</Card>
+
+			</CardDeck>
+
+			<CardDeck>
+				<Card>
+					<Card.Body>
+						<Card.Title>Card title</Card.Title>
+						<Card.Text>
+							<MethodLogs />
 						</Card.Text>
 					</Card.Body>
 					<Card.Footer>
@@ -36,22 +66,8 @@ const AdminDashboard = () => {
 						</small>
 					</Card.Footer>
 				</Card>
-				<Card>
-					<Card.Body>
-						<Card.Title>Veículos mais requisitados</Card.Title>
-						<Card.Text>
-							<VehiclesData />
-						</Card.Text>
-					</Card.Body>
-					<Card.Footer>
-						<small className='text-muted'>
-							Last updated 3 mins ago
-						</small>
-						<MethodLogs />
-					</Card.Footer>
-				</Card>
 			</CardDeck>
-		</Container>
+		</div>
 	);
 };
 
