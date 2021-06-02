@@ -1,23 +1,20 @@
 import './App.css';
-import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from 'react';
 import Login from './components/Login/Login';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import SignUp from './components/SignUp/SignUp';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import CreateTrip from './components/Trip/Create/CreateTrip';
 import ReserveTrip from './components/Trip/Reserve/ReserveTrip';
 import SearchTrip from './components/Trip/Search/SearchTrip';
-import Speedometer from './components/Speedometer/Speedometer';
 import Map from './components/Map/Map';
-import AccelerometerSensor from './components/Sensors/AccelerometerSensor';
-import Socket from './components/Socket/Socket';
 import UserProfile from './components/UserProfile/UserProfile';
 import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
-import UserNotification from './components/Notification/UserNotification';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import DriverPage from './components/Driver/DriverPage';
+import DriverPageTrip from './components/Driver/DriverPageTrip'
 
 function App() {
 	return (
@@ -34,7 +31,10 @@ function App() {
 						</div>
 					)}
 				/>
-				<Route path='/driver' component={DriverPage} />
+				<Route path='/driver' component={DriverPageTrip} />
+
+				<Route path='/driveradmin' component={DriverPage} />
+
 				<Route
 					path='/map'
 					exact
