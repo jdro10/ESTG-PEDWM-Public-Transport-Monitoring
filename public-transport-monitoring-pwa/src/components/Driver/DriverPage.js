@@ -3,6 +3,8 @@ import { Form, Button } from 'react-bootstrap';
 import './DriverPage.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import mqtt from 'mqtt';
+import { Accelerometer } from 'motion-sensors-polyfill';
+import AccelerometerSensor from '../Sensors/AccelerometerSensor'
 
 const DriverPage = () => {
 	const [buttonStart, setButtonStart] = useState(true);
@@ -10,6 +12,7 @@ const DriverPage = () => {
 	const [tripId, setTripId] = useState('')
 	const [topic, setTopic] = useState('')
 	const [topicLocation, setTopicLocation] = useState('')
+	const [topicAcc, setTopicAcc] = useState('')
 	const [latitude, setLatitude] = useState('');
 	const [longitude, setLongitude] = useState('');
 
@@ -42,6 +45,24 @@ const DriverPage = () => {
 		connect();
 	}
 
+	const connectToMQTTAcc = () => {
+		setTopicAcc("pedwmptm/accelerometer")
+
+		const connect = () => {
+			client.on('connect' , () => {
+				console.log("connected to mqtt acc")
+			})
+		}
+
+		connect();
+	}
+
+	const publishAcc = (message) => {
+		client.publish(topicAcc, message, function () {
+			console.log("Message is published acc");
+		})
+	}
+
 	const publishDelay = (message) => {
 		client.publish(topic, message, function () {
 			console.log("Message is published");
@@ -58,6 +79,26 @@ const DriverPage = () => {
 			console.log("Message location published");
 		})
 	}
+
+	let accelerometer;
+
+
+    if (typeof Accelerometer === "function") {
+        accelerometer = new Accelerometer({ frequency: 60 });
+        accelerometer.addEventListener('error', event => {
+            if (event.error.name === 'NotAllowedError') {
+                console.log("not allowed");
+            } else if (event.error.name === 'NotReadableError') {
+                console.log("cant read data");
+            }
+        });
+        accelerometer.addEventListener('reading', (e) => { 
+			if(e.target.x > 10 || e.target.y  > 10 || e.target.z > 10){
+				publishAcc()
+			}
+		 });
+        accelerometer.start();
+    }
 
 	return (
 		<div className='flex-container root'>
@@ -99,6 +140,7 @@ const DriverPage = () => {
 						disabled={buttonStart}
 						onClick={() => {
 							setButtonFinish(false);
+							connectToMQTTAcc();
 						}}
 					>
 						{' '}
