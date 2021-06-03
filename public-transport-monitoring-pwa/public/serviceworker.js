@@ -31,7 +31,7 @@ self.addEventListener('install', function (event) {
 					.then((assets) => {
 						// We will cache initial page and the main.js
 						// We could also cache assets like CSS and images
-						const urlsToCache = ['/', assets['main.js']];
+						const urlsToCache = ['/userprofile', assets['main.js']];
 						cache.addAll(urlsToCache);
 					});
 			})

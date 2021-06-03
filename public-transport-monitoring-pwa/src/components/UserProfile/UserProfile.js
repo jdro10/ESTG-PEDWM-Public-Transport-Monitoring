@@ -96,7 +96,7 @@ const UserProfile = () => {
 
     const sub = () => {
         if(localStorage.getItem('tripId') !== null){
-            const topicSub = "pedwmptm/" + localStorage.getItem('tripId')
+            const topicSub = "pedwmptm/notification/" + localStorage.getItem('tripId')
 
             client.subscribe(topicSub, () => {
                 console.log("subscribed")

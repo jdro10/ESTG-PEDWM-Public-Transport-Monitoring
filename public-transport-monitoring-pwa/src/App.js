@@ -16,6 +16,7 @@ import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import DriverPage from './components/Driver/DriverPage';
 import DriverPageTrip from './components/Driver/DriverPageTrip'
 import ErrorPage from './components/ErrorPage/ErrorPage';
+import Schedule from './components/Schedule/Schedule';
 
 function App() {
 	const userRole = localStorage.getItem('userRole')
@@ -30,6 +31,18 @@ function App() {
 						<div>
 							<Header />
 							<Login />
+							<Footer />
+						</div>
+					)}
+				/>
+
+				<Route
+					path='/schedule'
+					exact
+					render={(props) => (
+						<div>
+							<Header />
+							<Schedule />
 							<Footer />
 						</div>
 					)}
