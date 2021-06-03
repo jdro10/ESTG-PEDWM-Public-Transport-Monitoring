@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
+import ip from '../../config';
 
 const VehiclesData = () => {
 	const [chartData, setChartData] = useState({});
@@ -13,7 +14,7 @@ const VehiclesData = () => {
 		let numbers = [];
 		const getToken = localStorage.getItem('token', getToken);
 
-		const req = await fetch('http://localhost:8080/admin/vehicles', {
+		const req = await fetch(`http://${ip}:8080/admin/vehicles`, {
 			method: 'GET',
 			withCredentials: true,
 			headers: {

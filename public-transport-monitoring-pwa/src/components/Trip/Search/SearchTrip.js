@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Container, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import ip from '../../../config';
 
 const SearchTrip = () => {
     const [allTrips, setAllTrips] = useState([])
@@ -25,7 +26,7 @@ const SearchTrip = () => {
     const getAllTrips = async() => {
         const getToken = localStorage.getItem('token', getToken);
 
-        const req = await fetch('http://localhost:8080/trips', {
+        const req = await fetch(`http://${ip}:8080/trips`, {
 			method: 'GET',
 			withCredentials: true,
 			headers: {

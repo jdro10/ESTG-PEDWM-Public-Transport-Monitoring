@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import ip from '../../config';
 
-const SOCKET_URL = 'http://localhost:8080';
+const SOCKET_URL = `http://${ip}:8080`;
 
 const Socket = () => {
 	let stompClient;

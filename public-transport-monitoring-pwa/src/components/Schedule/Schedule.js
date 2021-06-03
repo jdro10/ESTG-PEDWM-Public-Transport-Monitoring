@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Container } from 'react-bootstrap'
+import ip from '../../config';
 
 const Schedule = () => {
     const [listening, setListening] = useState(false);
@@ -9,7 +10,7 @@ const Schedule = () => {
 
     useEffect(() => {
         if (!listening) {
-            eventSource = new EventSource('http://localhost:8080/allTrips');
+            eventSource = new EventSource(`http://${ip}:8080/allTrips`);
 
             eventSource.onmessage = (event) => {
                 setTrips(JSON.parse(event.data))
