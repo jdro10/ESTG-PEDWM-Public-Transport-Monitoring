@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { CardDeck, Card, Container } from 'react-bootstrap';
-import { Bar } from 'react-chartjs-2';
+import mqtt from 'mqtt';
 import Speedometer from '../Speedometer/Speedometer';
 import DriversData from './DriversData';
 import MethodLogs from './MethodLogs';
@@ -9,6 +9,31 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
+	const client = mqtt.connect('ws://broker.emqx.io:8083/mqtt')
+
+	useEffect(() => {
+		connect();
+		sub();
+
+	}, [])
+
+	const connect = () => {
+		client.on('connect', () => {
+			console.log('connected to topic: ' + localStorage.getItem('tripId'));
+		});
+
+	}
+
+	const sub = () => {
+		const topicSub = "pedwmptm/accelerometer";
+
+		client.subscribe(topicSub, () => {
+			client.on('message', (topicSub, message) => {
+				new Notification(message);
+			})
+		})
+	}
+
 	return (
 		<div>
 			<Link to='/createvehicle'>

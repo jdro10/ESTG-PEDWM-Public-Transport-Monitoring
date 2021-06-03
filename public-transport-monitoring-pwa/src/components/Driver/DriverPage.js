@@ -4,171 +4,122 @@ import './DriverPage.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import mqtt from 'mqtt';
 import { Accelerometer } from 'motion-sensors-polyfill';
-import AccelerometerSensor from '../Sensors/AccelerometerSensor'
+import { useLocation } from 'react-router-dom';
 
-const DriverPage = () => {
-	const [buttonStart, setButtonStart] = useState(true);
-	const [buttonFinish, setButtonFinish] = useState(true);
-	const [tripId, setTripId] = useState('')
-	const [topic, setTopic] = useState('')
-	const [topicLocation, setTopicLocation] = useState('')
-	const [topicAcc, setTopicAcc] = useState('')
+const DriverPage = ({ tripId }) => {
 	const [latitude, setLatitude] = useState('');
 	const [longitude, setLongitude] = useState('');
+	const [topicLocation, setTopicLocation] = useState('')
+	const [topicNotification, setTopicNotification] = useState('')
+	const [topicAccelerometer, setTopicAccelerometer] = useState('')
+	
+	const routerlocation = useLocation();
+	const id = routerlocation.state.tripId;
 
-	const outro = -8;
-	const position = 10;
+	useEffect(() => {		
+		mqttNotifications(id);
+		mqttLocation(id);
+		mqttAccelerometer(id);
+
+		const location = navigator.geolocation.getCurrentPosition((position) => {
+			setLatitude(position.coords.latitude);
+			setLongitude(position.coords.longitude);
+		});		
+	}, [])
 
 	const client = mqtt.connect('ws://broker.emqx.io:8083/mqtt')
 
-	const connectToMQTT = () => {
-		setTopic("pedwmptm/" + tripId)
 
-		const connect = () => {
-			client.on('connect', () => {
-				console.log("connected")
-			});
-		}
+	const mqttNotifications = (idparam) => {
+		setTopicNotification("pedwmptm/notification/" + idparam)
 
-		connect();
+		client.on('connect', () => {
+			console.log("Connected to MQTT notifications")
+		});
 	}
 
-	const connectToMQTTLocation = () => {
-		setTopicLocation("pedwmptm/location/" + tripId)
-
-		const connect = () => {
-			client.on('connect', () => {
-				console.log("connected to mqtt location")
-			});
-		}
-
-		connect();
-	}
-
-	const connectToMQTTAcc = () => {
-		setTopicAcc("pedwmptm/accelerometer")
-
-		const connect = () => {
-			client.on('connect' , () => {
-				console.log("connected to mqtt acc")
-			})
-		}
-
-		connect();
-	}
-
-	const publishAcc = (message) => {
-		client.publish(topicAcc, message, function () {
-			console.log("Message is published acc");
+	const publishNotification = (message) => {
+		client.publish(topicNotification, message, function () {
+			console.log("Message notification is published at topic " + topicNotification);
 		})
 	}
 
-	const publishDelay = (message) => {
-		client.publish(topic, message, function () {
-			console.log("Message is published");
-		})
-	}
+	const mqttLocation = (idparam) => {
+		setTopicLocation("pedwmptm/location/" + idparam)
 
-	const location = navigator.geolocation.getCurrentPosition((position) => {
-		setLatitude(position.coords.latitude);
-		setLongitude(position.coords.longitude);
-	});
+		client.on('connect', () => {
+			console.log("Connected to MQTT location")
+		});
+	}
 
 	const publishLocation = (message) => {
 		client.publish(topicLocation, message, function () {
-			console.log("Message location published");
+			console.log("Message location published at topic: " + topicLocation);
+		})
+	}
+
+	const mqttAccelerometer = (idparam) => {
+		setTopicAccelerometer("pedwmptm/accelerometer")
+
+		client.on('connect', () => {
+			console.log("connected to MQTT accelerometer")
+		})
+	}
+
+	const publishAccelerometer = (message) => {
+		client.publish(topicAccelerometer, message, function () {
+			console.log("Message accelerometer published at topic: " + topicAccelerometer);
 		})
 	}
 
 	let accelerometer;
 
-
-    if (typeof Accelerometer === "function") {
-        accelerometer = new Accelerometer({ frequency: 60 });
-        accelerometer.addEventListener('error', event => {
-            if (event.error.name === 'NotAllowedError') {
-                console.log("not allowed");
-            } else if (event.error.name === 'NotReadableError') {
-                console.log("cant read data");
-            }
-        });
-        accelerometer.addEventListener('reading', (e) => { 
-			if(e.target.x > 10 || e.target.y  > 10 || e.target.z > 10){
-				publishAcc()
+	if (typeof Accelerometer === "function") {
+		accelerometer = new Accelerometer({ frequency: 60 });
+		accelerometer.addEventListener('error', event => {
+			if (event.error.name === 'NotAllowedError') {
+				console.log("not allowed");
+			} else if (event.error.name === 'NotReadableError') {
+				console.log("cant read data");
 			}
-		 });
-        accelerometer.start();
-    }
+		});
+		accelerometer.addEventListener('reading', (e) => {
+			if(e.target.z > 20){
+				publishAccelerometer("Muitas vibrações detetadas na viagem " + id + "!");
+			}
+		});
+
+		accelerometer.start();
+	}
 
 	return (
 		<div className='flex-container root'>
 			<div className='form-container'>
-			<h3>Localização atual: </h3>
-			<p>Latitude: {latitude}</p>
-			<p>Longitude: {longitude}</p>
-				<Form>
-					<Form.Group id='input' size='lg'>
-						<Form.Label>ID Viagem</Form.Label>
-						<Form.Control
-							type="text"
-							value={tripId}
-							onChange={(e) => setTripId(e.currentTarget.value)}
-							autoFocus
-							placeholder='id12931283b59230'
-						/>
-					</Form.Group>
-					<Button
-						variant='primary'
-						block
-						size='lg'
-
-						onClick={() => {
-							setButtonStart(false);
-							connectToMQTT();
-							connectToMQTTLocation();
-						}}
-					>
-						{' '}
-						Verificar ID{' '}
-					</Button>
-				</Form>
-
+				<h3>Localização atual: </h3>
+				<p>Latitude: {latitude}</p>
+				<p>Longitude: {longitude}</p>
 				<div className='buttons'>
 					<Button
 						variant='success'
 						size='lg'
-						disabled={buttonStart}
-						onClick={() => {
-							setButtonFinish(false);
-							connectToMQTTAcc();
-						}}
 					>
-						{' '}
-						Iniciar Viagem{' '}
+						Iniciar Viagem
 					</Button>
-
-
 
 					<Button
 						variant='info'
 						size='lg'
-						disabled={buttonStart}
 						onClick={() => {
-							setButtonFinish(false);
-							publishDelay(`A viagem ${tripId} encontra-se nas coordenadas: ${latitude} e ${longitude}`);
+							publishNotification(`A viagem ${id} encontra-se nas coordenadas: ${latitude} e ${longitude}`);
 							publishLocation(latitude + "|" + longitude)
 						}}
 					>
-						{' '}
-						Paragem{' '}
+						Paragem
 					</Button>
 
-					<Button variant='danger' size='lg' disabled={buttonFinish}>
-						{' '}
-						Terminar Viagem{' '}
+					<Button variant='danger' size='lg'>
+						Terminar Viagem
 					</Button>
-
-
 				</div>
 			</div>
 
@@ -176,7 +127,7 @@ const DriverPage = () => {
 				<MapContainer
 					center={[latitude, longitude]}
 					zoom={8}
-					
+
 				>
 					<TileLayer
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

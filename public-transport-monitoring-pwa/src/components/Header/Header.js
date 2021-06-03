@@ -7,7 +7,7 @@ const Header = () => {
 		<div>
 			<ul className='navigation'>
 				<li>
-					<a>Horários</a>
+				<Link to="/schedule">Horários</Link>
 				</li>
 				<li>
 					<a>Bilhetes</a>
