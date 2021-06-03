@@ -15,8 +15,11 @@ import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import DriverPage from './components/Driver/DriverPage';
 import DriverPageTrip from './components/Driver/DriverPageTrip'
+import ErrorPage from './components/ErrorPage/ErrorPage';
 
 function App() {
+	const userRole = localStorage.getItem('userRole')
+
 	return (
 		<Router>
 			<div>
@@ -31,9 +34,6 @@ function App() {
 						</div>
 					)}
 				/>
-				<Route path='/driver' component={DriverPageTrip} />
-
-				<Route path='/driveradmin' component={DriverPage} />
 
 				<Route
 					path='/map'
@@ -46,7 +46,7 @@ function App() {
 						</div>
 					)}
 				/>
-				<Route path='/admin' component={AdminDashboard} />
+
 				<Route
 					path='/reserve'
 					exact
@@ -91,8 +91,17 @@ function App() {
 						</div>
 					)}
 				/>
-				<Route path='/createtrip' component={CreateTrip} />
-				<Route path='/createvehicle' component={CreateVehicle} />
+
+				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/driver' component={DriverPageTrip} /> : <Route path='/driver' component={ErrorPage} />}
+
+				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/driveradmin' component={DriverPage} /> : <Route path='/driveradmin' component={ErrorPage} />}
+
+				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/createtrip' component={CreateTrip} /> : <Route path='/createtrip' component={ErrorPage} />}
+
+				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/createvehicle' component={CreateVehicle} /> : <Route path='/createvehicle' component={ErrorPage} />}
+
+				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/admin' component={AdminDashboard} /> : <Route path='/admin' component={ErrorPage} />}
+
 			</div>
 		</Router>
 	);

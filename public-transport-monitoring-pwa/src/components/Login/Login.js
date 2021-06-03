@@ -38,10 +38,12 @@ const Login = () => {
 				'Authorization': 'Bearer ' + getToken
 			}
 		});
+		
 
 		const resUser = await reqUser.json();
 
 		localStorage.setItem('userId', resUser.id)
+		localStorage.setItem('userRole', resUser.roles[0])
 
 		setLoggedIn(true);
 	};

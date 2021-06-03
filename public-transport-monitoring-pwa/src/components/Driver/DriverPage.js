@@ -59,7 +59,7 @@ const DriverPage = ({ tripId }) => {
 	}
 
 	const mqttAccelerometer = (idparam) => {
-		setTopicAccelerometer("pedwmptm/accelerometer/" + idparam)
+		setTopicAccelerometer("pedwmptm/accelerometer")
 
 		client.on('connect', () => {
 			console.log("connected to MQTT accelerometer")
@@ -85,7 +85,7 @@ const DriverPage = ({ tripId }) => {
 		});
 		accelerometer.addEventListener('reading', (e) => {
 			if(e.target.z > 20){
-				publishAccelerometer(id + ";" + e.target.x + ";" + e.target.y + ";" + e.target.z);
+				publishAccelerometer("Muitas vibrações detetadas na viagem " + id + "!");
 			}
 		});
 
