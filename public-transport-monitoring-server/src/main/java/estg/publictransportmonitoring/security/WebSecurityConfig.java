@@ -46,6 +46,8 @@ public class WebSecurityConfig {
                 .pathMatchers("/login").permitAll()
                 .pathMatchers("/users/create").permitAll()
                 .pathMatchers("/position/*").permitAll()
+                .pathMatchers("/velocity/*").permitAll()
+                .pathMatchers("/allTrips").permitAll()
                 .pathMatchers("/mqtt/*").permitAll()
                 .pathMatchers("/velocity").permitAll()
                 .anyExchange().authenticated()
