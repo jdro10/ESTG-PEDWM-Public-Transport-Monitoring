@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import './createVehicle.css';
+import ip from '../../../config';
 
 const CreateVehicle = () => {
 	const [brandName, setBrandName] = useState('');
@@ -8,7 +9,7 @@ const CreateVehicle = () => {
 	const [capacitySize, setCapacitySize] = useState(0);
 
 	const sendRequest = async () => {
-		const req = await fetch('http://localhost:8080/vehicles', {
+		const req = await fetch(`http://${ip}:8080/vehicles`, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json'

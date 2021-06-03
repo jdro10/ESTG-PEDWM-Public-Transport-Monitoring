@@ -3,6 +3,7 @@ import ReactSpeedometer from 'react-d3-speedometer';
 import './Speedometer.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ip from '../../config';
 
 const Speedometer = () => {
 	const [velocity, setVelocity] = useState(0);
@@ -11,7 +12,7 @@ const Speedometer = () => {
 
 	const connectToSSE = (tripId) => {
 		console.log("conectado ao sse com id de viagem " + tripId)
-		let eventSource = eventSource = new EventSource('http://localhost:8080/velocity/' + trip);
+		let eventSource = eventSource = new EventSource(`http://${ip}:8080/velocity/` + trip);
 
 		eventSource.onmessage = (event) => {
 			setVelocity(event.data)

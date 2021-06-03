@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import './Map.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ip from '../../config';
 
 const Map = () => {
 	const [latitude, setLatitude] = useState(0.0);
@@ -18,7 +19,7 @@ const Map = () => {
 	const connectToSSE = (topicNameInput) => {
 		if (!listening) {
 			console.log("conectado ao topico " + topicNameInput)
-			eventSource = new EventSource('http://localhost:8080/position/' + topicNameInput);
+			eventSource = new EventSource(`http://${ip}:8080/position/` + topicNameInput);
 
 			eventSource.onmessage = (event) => {
 				// setLatitude(event.data[0]);

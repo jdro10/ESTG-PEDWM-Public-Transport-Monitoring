@@ -8,6 +8,7 @@ import {
 	Dropdown,
 	Container
 } from 'react-bootstrap';
+import ip from '../../../config';
 
 const CreateTrip = () => {
 	const timeOptions = ['10:30', '12:30', '14:30', '16:30', '18:30', '20:30'];
@@ -24,7 +25,7 @@ const CreateTrip = () => {
 	const createTrip = async () => {
 		const getToken = localStorage.getItem('token', getToken);
 
-		const req = await fetch('http://localhost:8080/trips', {
+		const req = await fetch(`http://${ip}:8080/trips`, {
 			method: 'POST',
 			withCredentials: true,
 			headers: {

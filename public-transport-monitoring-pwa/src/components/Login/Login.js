@@ -5,16 +5,17 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import SearchTrip from '../Trip/Search/SearchTrip';
+import ip from '../../config';
 
 const Login = () => {
 	const storedJwt = localStorage.getItem('token');
 	const [jwt, setJwt] = useState(storedJwt || null);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [loggedIn, setLoggedIn] = useState(false)
+	const [loggedIn, setLoggedIn] = useState(false);
 
 	const getJwt = async (username, password) => {
-		const res = await fetch('http://localhost:8080/login', {
+		const res = await fetch(`http://${ip}:8080/login`, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json'
@@ -30,20 +31,22 @@ const Login = () => {
 
 		const getToken = localStorage.getItem('token', getToken);
 
-		const reqUser = await fetch('http://localhost:8080/users/getByUsername/' + username, {
-			method: 'GET',
-			withCredentials: true,
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + getToken
+		const reqUser = await fetch(
+			`http://${ip}:8080/users/getByUsername/` + username,
+			{
+				method: 'GET',
+				withCredentials: true,
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + getToken
+				}
 			}
-		});
-		
+		);
 
 		const resUser = await reqUser.json();
 
-		localStorage.setItem('userId', resUser.id)
-		localStorage.setItem('userRole', resUser.roles[0])
+		localStorage.setItem('userId', resUser.id);
+		localStorage.setItem('userRole', resUser.roles[0]);
 
 		setLoggedIn(true);
 	};
@@ -70,14 +73,15 @@ const Login = () => {
 					/>
 				</Form.Group>
 				<Button
-					onClick={() => { getJwt(username, password); }}
+					onClick={() => {
+						getJwt(username, password);
+					}}
 					variant='success'
 					block
 					size='lg'
 				>
 					{' '}
 					Login{' '}
-
 				</Button>
 				<div id='signupMsg'>
 					<Form.Label>
@@ -86,7 +90,7 @@ const Login = () => {
 					</Form.Label>
 				</div>
 			</Form>
-			{loggedIn ? <Redirect to="/searchtrip" /> : ''}
+			{loggedIn ? <Redirect to='/searchtrip' /> : ''}
 		</div>
 	);
 };

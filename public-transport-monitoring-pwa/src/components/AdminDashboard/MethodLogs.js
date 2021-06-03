@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import worker_script from './CalculateAVG';
+import ip from '../../config';
 
 const MethodLogs = () => {
 	const [chartData, setChartData] = useState({});
@@ -10,7 +11,7 @@ const MethodLogs = () => {
 	const renderChart = async () => {
 		const getToken = localStorage.getItem('token', getToken);
 
-		const req = await fetch('http://localhost:8080/admin/methodmetrics', {
+		const req = await fetch(`http://${ip}:8080/admin/methodmetrics`, {
 			method: 'GET',
 			withCredentials: true,
 			headers: {

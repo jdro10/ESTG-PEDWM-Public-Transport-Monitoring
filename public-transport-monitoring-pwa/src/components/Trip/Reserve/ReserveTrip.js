@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 import './reserveTrip.css';
 import Modal from 'react-bootstrap/Modal';
 import { useLocation } from 'react-router-dom';
+import ip from '../../../config';
 
 const ReserveTrip = ({ origin, destination, date }) => {
 	const [show, setShow] = useState(false);
@@ -21,7 +22,7 @@ const ReserveTrip = ({ origin, destination, date }) => {
 		const userId = localStorage.getItem('userId', userId);
 		const token = localStorage.getItem('token', token);
 
-		const req = await fetch('http://localhost:8080/trips/reserve', {
+		const req = await fetch(`http://${ip}:8080/trips/reserve`, {
 			method: 'POST',
 			withCredentials: true,
 			headers: {

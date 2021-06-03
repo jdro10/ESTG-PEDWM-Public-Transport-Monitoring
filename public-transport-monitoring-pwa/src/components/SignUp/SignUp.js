@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ip from '../../config';
 
 const SignUp = () => {
 	const [username, setUsername] = useState('');
@@ -9,7 +10,7 @@ const SignUp = () => {
 	const [password, setPassword] = useState('');
 
 	const signUp = async (username, email, password) => {
-		const req = await fetch('http://localhost:8080/users/create', {
+		const req = await fetch(`http://${ip}:8080/users/create`, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json'
