@@ -4,10 +4,13 @@ import './errorpage.css';
 import { Link } from 'react-router-dom';
 
 const ErrorPage = () => {
+    const userId = localStorage.getItem('userId')
+
     return (
         <div className="containerDiv">
             <h1>Não tem previlégios para aceder a esta página.</h1>
-            <Link to="/searchtrip" ><Button variant="warning">Voltar à página inicial.</Button></Link>
+            { userId != null ? <Link to="/searchtrip" ><Button variant="warning">Voltar à página inicial.</Button></Link> : <Link to="/" ><Button variant="warning">Voltar à página inicial.</Button></Link>}
+            
         </div>
     )
 }

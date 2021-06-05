@@ -6,19 +6,18 @@ import { Button } from 'react-bootstrap';
 const Header = () => {
 	const userId = localStorage.getItem('userId')
 
-	const logoutCleanup = () => {
-		localStorage.removeItem('userId')
-		localStorage.removeItem('token')
-		localStorage.removeItem('userRole')
-		localStorage.removeItem('tripId')
+	const logoutCleanup = async () => {
+		await localStorage.removeItem('userId')
+		await localStorage.removeItem('token')
+		await localStorage.removeItem('userRole')
+		await localStorage.removeItem('tripId')
 	}
 
 	let logout;
 
 	if(userId != null){
 		logout = <li>
-					
-					<Link to="/" style={{ color: '#FF0000' }} onClick={logoutCleanup}>Terminar sessão</Link>
+					<Link to="/login" style={{ color: '#FF0000' }} onClick={logoutCleanup}>Terminar sessão</Link>
 				</li>
 	}
 
