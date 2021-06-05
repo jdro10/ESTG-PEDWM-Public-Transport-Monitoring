@@ -19,10 +19,15 @@ const UserProfile = () => {
 		price: ''
 	});
 
+	const [tripIdToReview, setTripIdToReview] = useState('')
+	const [messageToReview, setMessageToReview] = useState('')
+
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const handleCloseReview = () => setShowReview(false);
 	const handleShowReview = () => setShowReview(true);
+
+	const userLoggedIn = localStorage.getItem('userId')
 
 	useEffect(() => {
 		const getData = async () => {
@@ -114,6 +119,43 @@ const UserProfile = () => {
 		}
 	};
 
+	const reviewATrip = async (userThatReviewed, tripThatReviewed, messageThatReviewed) => {
+		const token = localStorage.getItem('token', token);
+
+		const res = await fetch(`http://${ip}:8080/review`, {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: 'Bearer ' + token
+			},
+			body: JSON.stringify({ userId: userThatReviewed, tripId: tripThatReviewed, message: messageThatReviewed })
+		});
+
+		alert("Obrigado pelos seus comentários.")
+	}
+
+	const checkIfUserAlreadyReview = async (userThatWantsToReview, tripToReview, messageToReview) => {
+		const token = localStorage.getItem('token', token);
+
+		const res = await fetch(`http://${ip}:8080/review/${userThatWantsToReview}/${tripToReview}`  , {
+			method: 'GET',
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: 'Bearer ' + token
+			}
+		});
+
+		const data = await res.json();
+
+		console.log(data)
+
+		if(data == true){
+			alert("ERRO: Já deu a sua opnião acerca desta viagem!");
+		} else if (data == false) {
+			reviewATrip(userThatWantsToReview, tripToReview, messageToReview)
+		}
+	}
+
 	return (
 		<Container>
 			<Card style={{ width: '50rem' }}>
@@ -174,6 +216,7 @@ const UserProfile = () => {
 											</Button>
 											<Button
 												onClick={() => {
+													setTripIdToReview(trip.tripId);
 													handleShowReview();
 												}}
 											>
@@ -246,13 +289,14 @@ const UserProfile = () => {
 					</Modal.Header>
 
 					<Modal.Body>
-						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value={messageToReview} onChange={(e) => setMessageToReview(e.currentTarget.value)}></textarea>
 					</Modal.Body>
 
 					<Modal.Footer>
 						<Button
 							variant='secondary'
 							onClick={() => {
+								checkIfUserAlreadyReview(userLoggedIn, tripIdToReview, messageToReview)
 								handleCloseReview();
 							}}
 						>
