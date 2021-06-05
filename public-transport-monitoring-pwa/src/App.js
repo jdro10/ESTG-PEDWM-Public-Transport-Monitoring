@@ -20,21 +20,33 @@ import Schedule from './components/Schedule/Schedule';
 
 function App() {
 	const userRole = localStorage.getItem('userRole')
+	const userId = localStorage.getItem('userId')
 
 	return (
 		<Router>
 			<div>
-				<Route
-					path='/'
-					exact
-					render={(props) => (
-						<div>
-							<Header />
-							<Login />
-							<Footer />
-						</div>
+				{ userId != null ? 
+					<Route path='/' 
+						exact 
+						render= { (props) => (
+							<div>
+								<Header />
+								<SearchTrip />
+								<Footer />
+							</div>
 					)}
-				/>
+				/> : <Route path='/' 
+						exact 
+						render= { (props) => (
+							<div>
+								<Header />
+								<Login />
+								<Footer />
+							</div>
+					)}/> 
+				}
+
+				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/driver' component={DriverPageTrip} /> : <Route path='/driver' component={ErrorPage} />}
 
 				<Route
 					path='/schedule'

@@ -35,6 +35,8 @@ public class SSE {
 
     @GetMapping(value = "/velocity/{tripId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Object> getVehicleSpeed(@PathVariable("tripId") String tripId) {
+        this.vehicleVelocity = 0.0f;
+
         return Flux.interval(Duration.ofSeconds(1))
                 .map(velocity -> {
                     String topicToSubscribe = "pedwmptm/velocity/" + tripId;
@@ -61,6 +63,9 @@ public class SSE {
     public Flux<Object> getCurrentPosition(@PathVariable("topic") String topicName) {
         System.out.println("Connected to topic: pedwmptm/location/" + topicName);
         String topicToSubscribe = "pedwmptm/location/" + topicName;
+
+        this.lastLongitude = 0.0f;
+        this.lastLatitude = 0.0f;
 
         return Flux.interval(Duration.ofSeconds(2))
                 .map(coordinates -> {
