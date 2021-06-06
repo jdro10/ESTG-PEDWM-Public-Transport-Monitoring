@@ -19,15 +19,15 @@ const UserProfile = () => {
 		price: ''
 	});
 
-	const [tripIdToReview, setTripIdToReview] = useState('')
-	const [messageToReview, setMessageToReview] = useState('')
+	const [tripIdToReview, setTripIdToReview] = useState('');
+	const [messageToReview, setMessageToReview] = useState('');
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const handleCloseReview = () => setShowReview(false);
 	const handleShowReview = () => setShowReview(true);
 
-	const userLoggedIn = localStorage.getItem('userId')
+	const userLoggedIn = localStorage.getItem('userId');
 
 	useEffect(() => {
 		const getData = async () => {
@@ -49,17 +49,14 @@ const UserProfile = () => {
 		const token = localStorage.getItem('token', token);
 		const userId = localStorage.getItem('userId', userId);
 
-		const req = await fetch(
-			`http://${ip}:8080/users/profile/` + userId,
-			{
-				method: 'GET',
-				withCredentials: true,
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + token
-				}
+		const req = await fetch(`http://${ip}:8080/users/profile/` + userId, {
+			method: 'GET',
+			withCredentials: true,
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + token
 			}
-		);
+		});
 
 		const data = await req.json();
 
@@ -119,7 +116,11 @@ const UserProfile = () => {
 		}
 	};
 
-	const reviewATrip = async (userThatReviewed, tripThatReviewed, messageThatReviewed) => {
+	const reviewATrip = async (
+		userThatReviewed,
+		tripThatReviewed,
+		messageThatReviewed
+	) => {
 		const token = localStorage.getItem('token', token);
 
 		const res = await fetch(`http://${ip}:8080/review`, {
@@ -128,33 +129,44 @@ const UserProfile = () => {
 				'Content-type': 'application/json',
 				Authorization: 'Bearer ' + token
 			},
-			body: JSON.stringify({ userId: userThatReviewed, tripId: tripThatReviewed, message: messageThatReviewed })
+			body: JSON.stringify({
+				userId: userThatReviewed,
+				tripId: tripThatReviewed,
+				message: messageThatReviewed
+			})
 		});
 
-		alert("Obrigado pelos seus comentários.")
-	}
+		alert('Obrigado pelos seus comentários.');
+	};
 
-	const checkIfUserAlreadyReview = async (userThatWantsToReview, tripToReview, messageToReview) => {
+	const checkIfUserAlreadyReview = async (
+		userThatWantsToReview,
+		tripToReview,
+		messageToReview
+	) => {
 		const token = localStorage.getItem('token', token);
 
-		const res = await fetch(`http://${ip}:8080/review/${userThatWantsToReview}/${tripToReview}`  , {
-			method: 'GET',
-			headers: {
-				'Content-type': 'application/json',
-				Authorization: 'Bearer ' + token
+		const res = await fetch(
+			`http://${ip}:8080/review/${userThatWantsToReview}/${tripToReview}`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-type': 'application/json',
+					Authorization: 'Bearer ' + token
+				}
 			}
-		});
+		);
 
 		const data = await res.json();
 
-		console.log(data)
+		console.log(data);
 
-		if(data == true){
-			alert("ERRO: Já deu a sua opnião acerca desta viagem!");
+		if (data == true) {
+			alert('ERRO: Já deu a sua opnião acerca desta viagem!');
 		} else if (data == false) {
-			reviewATrip(userThatWantsToReview, tripToReview, messageToReview)
+			reviewATrip(userThatWantsToReview, tripToReview, messageToReview);
 		}
-	}
+	};
 
 	return (
 		<Container>
@@ -216,13 +228,22 @@ const UserProfile = () => {
 											</Button>
 											<Button
 												onClick={() => {
-													setTripIdToReview(trip.tripId);
+													setTripIdToReview(
+														trip.tripId
+													);
 													handleShowReview();
 												}}
 											>
-												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
-													<path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
-													<path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
+												<svg
+													xmlns='http://www.w3.org/2000/svg'
+													width='16'
+													height='16'
+													fill='currentColor'
+													class='bi bi-card-text'
+													viewBox='0 0 16 16'
+												>
+													<path d='M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z' />
+													<path d='M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z' />
 												</svg>
 											</Button>
 										</th>
@@ -285,18 +306,32 @@ const UserProfile = () => {
 			<Modal show={showReview} onHide={handleCloseReview}>
 				<Modal.Dialog>
 					<Modal.Header closeButton>
-						<Modal.Title>Faça um comentário acerca da sua viagem!</Modal.Title>
+						<Modal.Title>
+							Faça um comentário acerca da sua viagem!
+						</Modal.Title>
 					</Modal.Header>
 
 					<Modal.Body>
-						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value={messageToReview} onChange={(e) => setMessageToReview(e.currentTarget.value)}></textarea>
+						<textarea
+							class='form-control'
+							id='exampleFormControlTextarea1'
+							rows='3'
+							value={messageToReview}
+							onChange={(e) =>
+								setMessageToReview(e.currentTarget.value)
+							}
+						></textarea>
 					</Modal.Body>
 
 					<Modal.Footer>
 						<Button
 							variant='secondary'
 							onClick={() => {
-								checkIfUserAlreadyReview(userLoggedIn, tripIdToReview, messageToReview)
+								checkIfUserAlreadyReview(
+									userProfileData.username,
+									tripIdToReview,
+									messageToReview
+								);
 								handleCloseReview();
 							}}
 						>

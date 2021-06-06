@@ -14,19 +14,21 @@ import UserProfile from './components/UserProfile/UserProfile';
 import CreateVehicle from './components/Vehicle/Create/CreateVehicle';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import DriverPage from './components/Driver/DriverPage';
-import DriverPageTrip from './components/Driver/DriverPageTrip'
+import DriverPageTrip from './components/Driver/DriverPageTrip';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import Schedule from './components/Schedule/Schedule';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import Reviews from './components/Reviews/Reviews';
 
 function App() {
-	const userRole = localStorage.getItem('userRole')
-	const userId = localStorage.getItem('userId')
+	const userRole = localStorage.getItem('userRole');
+	const userId = localStorage.getItem('userId');
 
 	return (
 		<Router>
 			<div>
-				<Route path='/login'
+				<Route
+					path='/login'
 					exact
 					render={(props) => (
 						<div>
@@ -34,12 +36,26 @@ function App() {
 							<Login />
 							<Footer />
 						</div>
-					)} />
+					)}
+				/>
 
-				{userId != null ?
-					<Redirect to="/searchtrip" />
-					:
-					<Route path='/'
+				<Route
+					path='/reviews'
+					exact
+					render={(props) => (
+						<div>
+							<Header />
+							<Reviews />
+							<Footer />
+						</div>
+					)}
+				/>
+
+				{userId != null ? (
+					<Redirect to='/searchtrip' />
+				) : (
+					<Route
+						path='/'
 						exact
 						render={(props) => (
 							<div>
@@ -47,8 +63,9 @@ function App() {
 								<Login />
 								<Footer />
 							</div>
-						)} />
-				}
+						)}
+					/>
+				)}
 
 				<Route
 					path='/schedule'
@@ -121,16 +138,35 @@ function App() {
 					)}
 				/>
 
-				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/driver' component={DriverPageTrip} /> : <Route path='/driver' component={ErrorPage} />}
+				{userRole === 'DRIVER' || userRole === 'ADMIN' ? (
+					<Route path='/driver' component={DriverPageTrip} />
+				) : (
+					<Route path='/driver' component={ErrorPage} />
+				)}
 
-				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/driveradmin' component={DriverPage} /> : <Route path='/driveradmin' component={ErrorPage} />}
+				{userRole === 'DRIVER' || userRole === 'ADMIN' ? (
+					<Route path='/driveradmin' component={DriverPage} />
+				) : (
+					<Route path='/driveradmin' component={ErrorPage} />
+				)}
 
-				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/createtrip' component={CreateTrip} /> : <Route path='/createtrip' component={ErrorPage} />}
+				{userRole === 'DRIVER' || userRole === 'ADMIN' ? (
+					<Route path='/createtrip' component={CreateTrip} />
+				) : (
+					<Route path='/createtrip' component={ErrorPage} />
+				)}
 
-				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/createvehicle' component={CreateVehicle} /> : <Route path='/createvehicle' component={ErrorPage} />}
+				{userRole === 'DRIVER' || userRole === 'ADMIN' ? (
+					<Route path='/createvehicle' component={CreateVehicle} />
+				) : (
+					<Route path='/createvehicle' component={ErrorPage} />
+				)}
 
-				{userRole === "DRIVER" || userRole === "ADMIN" ? <Route path='/admin' component={AdminDashboard} /> : <Route path='/admin' component={ErrorPage} />}
-
+				{userRole === 'DRIVER' || userRole === 'ADMIN' ? (
+					<Route path='/admin' component={AdminDashboard} />
+				) : (
+					<Route path='/admin' component={ErrorPage} />
+				)}
 			</div>
 		</Router>
 	);

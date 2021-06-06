@@ -1,6 +1,7 @@
 package estg.publictransportmonitoring.Controllers;
 
 import estg.publictransportmonitoring.Entities.Trip;
+import estg.publictransportmonitoring.Services.ReviewService;
 import estg.publictransportmonitoring.mqtt.MqttConfig;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class SSE {
     private Float vehicleVelocity = 0.0f;
     @Autowired
     private TripController tripController;
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping(value = "/velocity/{tripId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Object> getVehicleSpeed(@PathVariable("tripId") String tripId) {
@@ -110,5 +113,13 @@ public class SSE {
         return Flux.interval(Duration.ofSeconds(1))
                 .map(trips -> this.tripController.getAll().collect(Collectors.toList()).share().block())
                 .map(listTrip -> listTrip);
+    }
+
+    @GetMapping(path = "/allReviews", produces = "text/event-stream")
+    public Flux<Object> getAllReviews(){
+
+        return Flux.interval(Duration.ofSeconds(1))
+                .map(reviews -> this.reviewService.getAllReviews().collect(Collectors.toList()).share().block())
+                .map(listReviews -> listReviews);
     }
 }
