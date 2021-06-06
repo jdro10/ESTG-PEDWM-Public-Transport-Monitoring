@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                 .pathMatchers("/allTrips").permitAll()
                 .pathMatchers("/mqtt/*").permitAll()
                 .pathMatchers("/velocity").permitAll()
+                .pathMatchers("/allReviews").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }

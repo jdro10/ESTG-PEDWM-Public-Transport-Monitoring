@@ -4,37 +4,51 @@ import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 const Header = () => {
-	const userId = localStorage.getItem('userId')
+	const userId = localStorage.getItem('userId');
 
 	const logoutCleanup = async () => {
-		await localStorage.removeItem('userId')
-		await localStorage.removeItem('token')
-		await localStorage.removeItem('userRole')
-		await localStorage.removeItem('tripId')
-	}
+		await localStorage.removeItem('userId');
+		await localStorage.removeItem('token');
+		await localStorage.removeItem('userRole');
+		await localStorage.removeItem('tripId');
+	};
 
 	let logout;
 
-	if(userId != null){
-		logout = <li>
-					<Link to="/login" style={{ color: '#FF0000' }} onClick={logoutCleanup}>Terminar sessão</Link>
-				</li>
+	if (userId != null) {
+		logout = (
+			<li>
+				<Link
+					to='/login'
+					style={{ color: '#FF0000' }}
+					onClick={logoutCleanup}
+				>
+					Terminar sessão
+				</Link>
+			</li>
+		);
 	}
 
 	return (
 		<div>
 			<ul className='navigation'>
 				<li>
-				<Link to="/schedule">Horários</Link>
+					<Link to='/schedule' style={{ color: 'white' }}>
+						Horários
+					</Link>
 				</li>
 				<li>
-					<a>Bilhetes</a>
+					<Link to='/reviews' style={{ color: 'white' }}>
+						Reviews
+					</Link>
 				</li>
 				<li>
 					<a>Como comprar</a>
 				</li>
 				<li>
-					<Link to="/userprofile" style={{ color: '#2ECC71' }}>Conta</Link>
+					<Link to='/userprofile' style={{ color: '#2ECC71' }}>
+						Conta
+					</Link>
 				</li>
 				{logout}
 			</ul>
