@@ -17,15 +17,16 @@ import DriverPage from './components/Driver/DriverPage';
 import DriverPageTrip from './components/Driver/DriverPageTrip'
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import Schedule from './components/Schedule/Schedule';
+import { Redirect } from 'react-router-dom'
 
 function App() {
 	const userRole = localStorage.getItem('userRole')
+	const userId = localStorage.getItem('userId')
 
 	return (
 		<Router>
 			<div>
-				<Route
-					path='/'
+				<Route path='/login'
 					exact
 					render={(props) => (
 						<div>
@@ -33,8 +34,21 @@ function App() {
 							<Login />
 							<Footer />
 						</div>
-					)}
-				/>
+					)} />
+
+				{userId != null ?
+					<Redirect to="/searchtrip" />
+					:
+					<Route path='/'
+						exact
+						render={(props) => (
+							<div>
+								<Header />
+								<Login />
+								<Footer />
+							</div>
+						)} />
+				}
 
 				<Route
 					path='/schedule'
@@ -59,7 +73,6 @@ function App() {
 						</div>
 					)}
 				/>
-
 				<Route
 					path='/reserve'
 					exact
@@ -71,6 +84,7 @@ function App() {
 						</div>
 					)}
 				/>
+
 				<Route
 					path='/searchtrip'
 					exact
@@ -82,6 +96,7 @@ function App() {
 						</div>
 					)}
 				/>
+
 				<Route
 					path='/signup'
 					exact
@@ -93,6 +108,7 @@ function App() {
 						</div>
 					)}
 				/>
+
 				<Route
 					path='/userprofile'
 					exact
