@@ -51,6 +51,7 @@ public class WebSecurityConfig {
                 .pathMatchers("/mqtt/*").permitAll()
                 .pathMatchers("/velocity").permitAll()
                 .pathMatchers("/allReviews").permitAll()
+                .pathMatchers("/promotions").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }
