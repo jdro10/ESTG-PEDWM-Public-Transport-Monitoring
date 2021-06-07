@@ -52,7 +52,7 @@ const Reviews = () => {
 
 	return (
 		<div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-			{isLoading && <h2>Está carregando cara!</h2>}
+			{isLoading && <h2>A carregar comentários .....</h2>}
 
 			{!isLoading && (
 				<div className='row'>
