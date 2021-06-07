@@ -2,6 +2,7 @@ package estg.publictransportmonitoring.Controllers;
 
 import estg.publictransportmonitoring.Entities.Trip;
 import estg.publictransportmonitoring.Services.ReviewService;
+import estg.publictransportmonitoring.Services.TripService;
 import estg.publictransportmonitoring.mqtt.MqttConfig;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.sql.Array;
@@ -32,7 +34,7 @@ public class SSE {
     private float lastLongitude = 0.0f;
     private Float vehicleVelocity = 0.0f;
     @Autowired
-    private TripController tripController;
+    private TripService tripService;
     @Autowired
     private ReviewService reviewService;
 
@@ -111,7 +113,7 @@ public class SSE {
     public Flux<Object> getAllTrips(){
 
         return Flux.interval(Duration.ofSeconds(1))
-                .map(trips -> this.tripController.getAll().collect(Collectors.toList()).share().block())
+                .map(trips -> this.tripService.getAll().collect(Collectors.toList()).share().block())
                 .map(listTrip -> listTrip);
     }
 
@@ -121,5 +123,27 @@ public class SSE {
         return Flux.interval(Duration.ofSeconds(1))
                 .map(reviews -> this.reviewService.getAllReviews().collect(Collectors.toList()).share().block())
                 .map(listReviews -> listReviews);
+    }
+
+
+    @GetMapping(path="/promotions" , produces = "text/event-stream")
+    public Flux<String> getPromo(){
+
+        return Flux.interval(Duration.ofSeconds(360)).map(s -> {
+            Random random = new Random();
+            int promoIndex = random.nextInt(3 - 1 + 1) + 1;
+
+            String promo;
+
+            if(promoIndex == 1){
+                promo = "Bilhetes só 5 euros";
+            }else if(promoIndex == 2){
+                promo = "Na compra de um bilhete oferecemos o outro à tua companheira";
+            }else{
+                promo = "75% descontos até ao final da semana";
+            }
+
+            return promo;
+        });
     }
 }
